@@ -19,5 +19,7 @@
     {{-- Footer tetap di bawah --}}
     @include('layouts.partials.footer')
 
+    {{-- TAMBAHKAN BARIS INI UNTUK MEMUAT JAVASCRIPT --}}
+    @vite('resources/js/app.js')
 </body>
 </html>
