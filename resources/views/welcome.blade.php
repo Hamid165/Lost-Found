@@ -15,7 +15,7 @@
 {{-- 2. Kenapa Kami? (Fitur Unggulan) - HTML Bersih --}}
 <section class="bg-slate-100 py-20">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Kenapa Menggunakan Platform Kami?</h2>
+        <h2 class="text-5xl font-bold text-center text-gray-800 mb-12">Kenapa Menggunakan Platform Kami?</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
@@ -82,7 +82,7 @@
 {{-- 3. Statistik (Full Width) --}}
 <section class="bg-red-800 py-12">
     <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold text-white mb-12">Jumlah Laporan</h2>
+        <h2 class="text-5xl font-bold text-white mb-12">Jumlah Laporan</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
              <div class="flex flex-col items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
