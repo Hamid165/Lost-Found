@@ -6,23 +6,24 @@ Berikut adalah tampilan dari beberapa halaman utama:
 ---
 
 ## Login
-![Wireframe Login](./images/login.jpg)
+![Wireframe Login](./public/images/login.jpg)
 
 ---
 
 ## Register
-![Wireframe Register](./images/register.jpgg)
+![Wireframe Register](./public/images/register.jpg)
 
 ---
 
 ## Beranda
-![Wireframe Beranda](./images/beranda.jpg)
+![Wireframe Beranda](./public/images/beranda.jpg)
 
 ---
 
 ## Barang
-![Wireframe Beranda](./images/barang.jpg)
+![Wireframe Barang](./public/images/barang.jpg)
+
 ---
 
 ## Report
-![Wireframe Beranda](./images/report.jpg)
+![Wireframe Report](./public/images/report.jpg)
