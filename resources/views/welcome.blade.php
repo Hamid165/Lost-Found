@@ -80,18 +80,20 @@
 </script> --}}
 
 {{-- 3. Statistik (Full Width) --}}
-<section class="bg-red-800 py-12">
+<section class="bg-red-800 py-20">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-5xl font-bold text-white mb-12">Jumlah Laporan</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-             <div class="flex flex-col items-center">
+             {{-- Item Kiri --}}
+             <div class="stat-card flex flex-col items-center opacity-0 -translate-x-10 transform transition-all duration-700 ease-out">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
                 <p class="text-5xl font-bold text-white">{{ \App\Models\FoundItem::count() }}</p>
                 <p class="text-white text-lg mt-2">Barang Ditemukan</p>
             </div>
-            <div class="flex flex-col items-center">
+            {{-- Item Kanan --}}
+            <div class="stat-card flex flex-col items-center opacity-0 translate-x-10 transform transition-all duration-700 ease-out delay-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mb-4 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -103,7 +105,7 @@
 </section>
 
 {{-- 4. FAQ Section (Full Width) --}}
-<section class="bg-white py-12 mb-16">
+<section class="bg-white py-12">
     <div class="container mx-auto px-4 max-w-3xl">
         <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">FAQ</h2>
         <div class="space-y-4">

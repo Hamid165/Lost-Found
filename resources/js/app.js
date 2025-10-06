@@ -89,4 +89,22 @@ if (featureCards.length) {
         observer.observe(card);
     });
     }
+// === 4. Scroll Animation for Stat Cards ===
+const statCards = document.querySelectorAll('.stat-card');
+if (statCards.length) {
+    const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-x-0');
+                statObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    statCards.forEach(card => {
+        statObserver.observe(card);
+    });
+}
 });
