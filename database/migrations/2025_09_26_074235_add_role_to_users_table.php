@@ -6,21 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Menambahkan kolom 'role' setelah kolom 'password'
-            // Defaultnya adalah 'user', bisa juga 'admin'
-            $table->string('role')->after('password')->default('user');
+            // Tambahkan kolom 'role' setelah kolom 'password'
+            // Nilai default-nya adalah 'user'
+            $table->string('role')->default('user')->after('password');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {

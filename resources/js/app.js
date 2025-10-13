@@ -1,110 +1,64 @@
 import './bootstrap';
 
-// Fungsi untuk menjalankan kode setelah DOM siap
-function onReady(callback) {
-    if (document.readyState !== 'loading') {
-        callback();
-    } else {
-        document.addEventListener('DOMContentLoaded', callback);
-    }
-}
+import Alpine from 'alpinejs';
 
-onReady(function() {
+window.Alpine = Alpine;
 
-    // === 1. Navbar Scroll Logic ===
-    const navbar = document.getElementById('main-nav');
-    if (navbar) {
-        let lastScrollTop = 0;
-        window.addEventListener("scroll", function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight) {
-                navbar.classList.add('opacity-0');
-            } else {
-                navbar.classList.remove('opacity-0');
-            }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        }, false);
-    }
+Alpine.start();
 
-    // === 2. FAQ Accordion Logic ===
+// --- Script untuk Animasi Scroll dan FAQ ---
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // 1. Logika untuk Accordion FAQ
     const faqToggles = document.querySelectorAll('.faq-toggle');
     faqToggles.forEach(toggle => {
         toggle.addEventListener('click', () => {
             const answer = toggle.nextElementSibling;
             const icon = toggle.querySelector('.faq-icon');
-            if (answer.style.maxHeight) {
-                answer.style.maxHeight = null;
-                answer.classList.add('opacity-0');
+
+            // Tutup semua item FAQ lain yang mungkin terbuka
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                if (ans !== answer && ans.classList.contains('active')) {
+                    ans.classList.remove('active');
+                    ans.style.maxHeight = '0px';
+                    ans.style.opacity = '0';
+                    ans.previousElementSibling.querySelector('.faq-icon').classList.remove('rotate-180');
+                }
+            });
+
+            // Buka atau tutup item yang di-klik
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                answer.style.maxHeight = '0px';
+                answer.style.opacity = '0';
                 icon.classList.remove('rotate-180');
             } else {
-                answer.classList.remove('opacity-0');
-                answer.style.maxHeight = answer.scrollHeight + "px";
+                answer.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
                 icon.classList.add('rotate-180');
             }
         });
     });
 
-    // === 3. Scroll Animation for Feature Cards (Kontrol Penuh di JS) ===
-const featureCards = document.querySelectorAll('.feature-card');
-if (featureCards.length) {
 
-    // --- DI SINI ANDA MENGATUR TITIK AWAL ANIMASI ---
-    // Atur kondisi awal untuk setiap kartu (buat tidak terlihat dan bergeser)
-    featureCards.forEach((card, index) => {
-        card.style.opacity = '0'; // Semua kartu mulai tidak terlihat
-        if (index === 0) { // Kartu Kiri
-            card.style.transform = 'translateX(-10px)'; // Mulai dari kiri 50px
-        } else if (index === 1) { // Kartu Tengah
-            card.style.transform = 'translateY(-10px)'; // Mulai dari atas 50px
-        } else if (index === 2) { // Kartu Kanan
-            card.style.transform = 'translateX(10px)';  // Mulai dari kanan 50px
-        }
-    });
+    // 2. Logika untuk Animasi 'Fade In' saat Scroll
+    const animatedElements = document.querySelectorAll('.feature-card, .stat-card');
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const card = entry.target;
-                
-                // --- DI SINI ANDA MENGATUR TITIK AKHIR ANIMASI ---
-                card.style.opacity = '1'; // Buat kartu terlihat
-                
-                // Kembalikan ke posisi semula atau posisi kustom
-                if (card === featureCards[0]) { // Kartu Kiri
-                    card.style.transform = 'translateX(0)'; // Berhenti di x=0
-                } else if (card === featureCards[1]) { // Kartu Tengah
-                    card.style.transform = 'translateY(0)'; // Berhenti di y=0
-                } else if (card === featureCards[2]) { // Kartu Kanan
-                    card.style.transform = 'translateX(0)'; // Berhenti di x=0
-                }
-                
-                observer.unobserve(card);
+                entry.target.classList.remove('opacity-0', '-translate-x-10', 'translate-x-10');
+                observer.unobserve(entry.target); // Hentikan observasi setelah animasi berjalan
             }
         });
     }, {
-        threshold: 0.1
+        threshold: 0.1 // Animasi berjalan saat 10% elemen terlihat
     });
 
-    featureCards.forEach(card => {
-        observer.observe(card);
-    });
-    }
-// === 4. Scroll Animation for Stat Cards ===
-const statCards = document.querySelectorAll('.stat-card');
-if (statCards.length) {
-    const statObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('opacity-100', 'translate-x-0');
-                statObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
+    animatedElements.forEach(el => {
+        observer.observe(el);
     });
 
-    statCards.forEach(card => {
-        statObserver.observe(card);
-    });
-}
 });

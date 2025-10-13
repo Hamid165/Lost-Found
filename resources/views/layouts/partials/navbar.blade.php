@@ -11,7 +11,7 @@
             <div class="hidden md:flex items-center space-x-4">
                 {{-- Diubah dari text-gray-600 hover:text-gray-800 menjadi text-black --}}
                 <a href="/" class="text-black">Beranda</a>
-                <a href="#" class="text-black">Laporan</a>
+                <a href="{{ route('report.index') }}" class="text-black">Laporan</a>
                 <a href="{{ route('items.index') }}" class="text-black">Barang</a>
                 {{-- Tampilkan menu Profil hanya jika admin login --}}
                 @auth

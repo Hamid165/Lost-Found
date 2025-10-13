@@ -5,18 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\FoundItem;
 use App\Models\LostItem;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class ItemController extends Controller
 {
-    public function index(): View
+    /**
+     * Menampilkan daftar semua barang (hilang dan ditemukan)
+     * dengan fungsionalitas pencarian dan pengurutan berdasarkan tanggal kejadian.
+     */
+    public function index(Request $request)
     {
-        $foundItems = FoundItem::latest()->paginate(10, ['*'], 'found_page');
-        $lostItems = LostItem::latest()->paginate(10, ['*'], 'lost_page');
+        $search = $request->input('search');
 
-        return view('items.index', [
-            'foundItems' => $foundItems,
-            'lostItems' => $lostItems,
-        ]);
+        // --- Query untuk Barang Ditemukan ---
+        $foundItemsQuery = FoundItem::query();
+        if ($search) {
+            $foundItemsQuery->where(function($query) use ($search) {
+                $query->where('nama_barang', 'like', "%{$search}%")
+                      ->orWhere('deskripsi', 'like', "%{$search}%")
+                      ->orWhere('lokasi_penemuan', 'like', "%{$search}%");
+            });
+        }
+        // DIUBAH: Mengurutkan berdasarkan tanggal penemuan secara menurun (descending)
+        $foundItems = $foundItemsQuery->orderBy('tanggal_penemuan', 'desc')->paginate(10)->appends($request->query());
+
+
+        // --- Query untuk Barang Hilang ---
+        $lostItemsQuery = LostItem::query();
+        if ($search) {
+            $lostItemsQuery->where(function($query) use ($search) {
+                $query->where('nama_barang', 'like', "%{$search}%")
+                      ->orWhere('deskripsi', 'like', "%{$search}%")
+                      ->orWhere('lokasi_terakhir', 'like', "%{$search}%");
+            });
+        }
+        // DIUBAH: Mengurutkan berdasarkan tanggal kehilangan secara menurun (descending)
+        $lostItems = $lostItemsQuery->orderBy('tanggal_kehilangan', 'desc')->paginate(10)->appends($request->query());
+
+        return view('items.index', compact('foundItems', 'lostItems'));
     }
 }
