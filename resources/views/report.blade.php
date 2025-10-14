@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Buat Laporan')
+@section('title', 'Laporan')
 
 @section('content')
 <div class="bg-slate-50 min-h-screen flex items-center">

@@ -1,16 +1,18 @@
 @extends('layouts.app')
 @section('title', 'Beranda')
 @section('content')
+<title>Profile</title>
 
 {{-- 1. Hero Section --}}
-<section class="relative bg-red-800 text-white text-center min-h-[94vh] flex items-center justify-center" style="background-image: url('{{ asset('images/hero-background.jpg') }}'); background-size: cover; background-position: center;">
+<section class="relative bg-red-800 text-white text-center h-screen flex items-center justify-center" style="background-image: url('{{ asset('images/telu.png') }}'); background-size: cover; background-position: center;">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <div class="relative z-10 px-4">
         <h1 class="text-5xl font-extrabold mb-4">Menghubungkan Kembali yang Terpisah</h1>
         <p class="text-xl mb-8 max-w-2xl mx-auto">Platform terpusat untuk melaporkan dan menemukan barang hilang di lingkungan kampus dengan mudah dan cepat.</p>
-        <a href="{{ route('items.index') }}" class="bg-red-800 text-white font-bold py-3 px-8 rounded-full hover:bg-red-900 transition duration-300">Lihat Daftar Barang</a>
+        <a href="{{ route('items.index')}}" class="bg-red-800 text-white font-bold py-3 px-8 rounded-full hover:bg-red-900 transition duration-300">Lihat Daftar Barang</a>
     </div>
 </section>
+
 
 {{-- 2. Kenapa Kami? (Fitur Unggulan) --}}
 <section class="bg-slate-100 py-20">
