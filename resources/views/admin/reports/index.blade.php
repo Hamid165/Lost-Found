@@ -2,14 +2,12 @@
 @section('title', 'Barang')
 @section('content')
 <div class="container mx-auto pt-24 px-4">
-    {{-- Notifikasi --}}
+    {{-- Notifikasi Sukses --}}
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
     @endif
-
-    {{-- Form Pencarian --}}
     <div class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">Daftar Laporan Barang Ditemukan dan Kehilangan</h1>
         <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Cari barang yang hilang atau ditemukan di bawah ini.</p>
@@ -65,8 +63,7 @@
                                             <a href="{{ route('admin.reports.found.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            {{-- PERUBAHAN 1: Hapus onsubmit, ganti tipe button, tambah class --}}
-                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer">
@@ -84,6 +81,7 @@
                 </tbody>
             </table>
         </div>
+        {{-- PERUBAHAN 1: Menambahkan template paginasi kustom --}}
         <div class="mt-6">{{ $foundItems->appends(request()->query())->links('vendor.pagination.tailwind-white') }}</div>
     </div>
 
@@ -127,8 +125,7 @@
                                             <a href="{{ route('admin.reports.lost.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            {{-- PERUBAHAN 2: Hapus onsubmit, ganti tipe button, tambah class --}}
-                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer">
@@ -146,12 +143,12 @@
                 </tbody>
             </table>
         </div>
+        {{-- PERUBAHAN 2: Menggunakan template paginasi kustom --}}
         <div class="mt-6">{{ $lostItems->appends(request()->query())->links('vendor.pagination.tailwind-white') }}</div>
     </div>
 </div>
 @endsection
 
-{{-- PERUBAHAN 3: Tambahkan script SweetAlert di sini --}}
 @push('scripts')
 <script>
     // Pastikan script hanya berjalan jika ada tombol hapus (jika admin login)
@@ -161,7 +158,9 @@
         deleteButtons.forEach(button => {
             button.addEventListener('click', function (event) {
                 event.preventDefault();
+
                 const form = this.closest('form');
+
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Data yang dihapus tidak dapat dikembalikan!",
@@ -181,3 +180,4 @@
     }
 </script>
 @endpush
+

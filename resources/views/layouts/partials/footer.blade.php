@@ -10,7 +10,7 @@
                         <p>+62 811 444 8585</p>
                     </a>
                     <a href="#" class="border border-red-700 rounded-lg px-4 py-2 text-sm w-full sm:w-auto text-white hover:bg-red-700 transition">
-                        <p>official@digitaldesa.id</p>
+                        <p>lostfound@gmail.com</p>
                     </a>
                 </div>
             </div>
@@ -46,8 +46,7 @@
             <div class="p-4">
                 <h3 class="text-lg font-bold mb-4 text-white">Alamat</h3>
                 <div class="text-sm text-gray-200 space-y-3">
-                    <p>Ruko I Walk J/10 Ciputra Citraland, Jl. Tun Abdul Razak Sulawesi Selatan</p>
-                    <p>Gedung Menara 165, Jl. TB. SIMATUPANG kav.1 Cilandak Timur, Jakarta Selatan</p>
+                    <p> Jl. DI Panjaitan No.128, Karangreja, Purwokerto Kidul, Kec. Purwokerto Sel., Kabupaten Banyumas, Jawa Tengah 53147</p>
                 </div>
             </div>
         </div>

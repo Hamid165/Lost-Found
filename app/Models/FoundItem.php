@@ -19,5 +19,6 @@ class FoundItem extends Model
         'deskripsi',
         'lokasi_penemuan',
         'tanggal_penemuan',
+        'status',
     ];
 }

@@ -15,22 +15,21 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
-// app/Models/User.php
-
     protected $fillable = [
         'name',
         'email',
         'password',
         'google_id',
-        'profile_photo_path', // Tambahkan ini
+        'profile_photo_path',
+        'role', // <-- Tambahkan 'role' di sini
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -48,5 +47,16 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Check if the user has the admin role.
+     *
+     * @return bool
+     */
+    // <-- Tambahkan method isAdmin() di sini
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }

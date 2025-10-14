@@ -19,5 +19,6 @@ class LostItem extends Model
         'deskripsi',
         'lokasi_terakhir',
         'tanggal_kehilangan',
+        'status',
     ];
 }

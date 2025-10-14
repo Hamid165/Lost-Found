@@ -71,7 +71,7 @@
 {{-- 4. FAQ Section (Full Width) --}}
 <section class="bg-white py-20">
     <div class="container mx-auto px-4 max-w-3xl">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">FAQ</h2>
+        <h2 class="text-5xl font-bold text-center text-gray-800 mb-10">FAQ</h2>
         <div class="space-y-4">
             {{-- FAQ Item 1 --}}
             <div class="faq-item">

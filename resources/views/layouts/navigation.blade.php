@@ -13,8 +13,26 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <div class="hidden space-x-4 sm:flex">
                     <x-nav-link :href="url('/')" :active="request()->is('/')">{{ __('Beranda') }}</x-nav-link>
+                    
+                    {{-- =================================================================== --}}
+                    {{-- PERUBAHAN 1: Link "Barang" dibuat menjadi dinamis untuk Desktop --}}
+                    {{-- =================================================================== --}}
+                    @if(auth()->check() && auth()->user()->isAdmin())
+                        {{-- Jika Admin, arahkan ke halaman manajemen --}}
+                        <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index*')">{{ __('Barang') }}</x-nav-link>
+                    @else
+                        {{-- Jika User biasa atau Tamu, arahkan ke halaman publik --}}
+                        <x-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">{{ __('Barang') }}</x-nav-link>
+                    @endif
+                    
                     <x-nav-link :href="route('report.index')" :active="request()->routeIs('report.index')">{{ __('Laporan') }}</x-nav-link>
-                    <x-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">{{ __('Barang') }}</x-nav-link>
+
+                    {{-- Link khusus Admin lainnya --}}
+                    @if(auth()->check() && auth()->user()->isAdmin())
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard*')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    @endif
                 </div>
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     @auth
@@ -43,7 +61,7 @@
                             <a href="{{ route('login') }}" class="text-sm text-gray-200 hover:text-white underline">Log in</a>
                             <a href="{{ route('register') }}" class="text-sm text-gray-200 hover:text-white underline">Register</a>
                         </div>
-                    @endguest
+                    @endauth
                 </div>
             </div>
 
@@ -62,8 +80,23 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="url('/')" :active="request()->is('/')">{{ __('Beranda') }}</x-responsive-nav-link>
+
+            {{-- =================================================================== --}}
+            {{-- PERUBAHAN 2: Link "Barang" dibuat menjadi dinamis untuk Mobile --}}
+            {{-- =================================================================== --}}
+            @if(auth()->check() && auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index*')">{{ __('Barang') }}</x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">{{ __('Barang') }}</x-responsive-nav-link>
+            @endif
+
             <x-responsive-nav-link :href="route('report.index')" :active="request()->routeIs('report.index')">{{ __('Laporan') }}</x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">{{ __('Barang') }}</x-responsive-nav-link>
+
+             @if(auth()->check() && auth()->user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
         <div class="pt-4 pb-1 border-t border-gray-600">
             @auth
@@ -88,7 +121,7 @@
                     <x-responsive-nav-link :href="route('login')" :active="false">{{ __('Log in') }}</x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('register')" :active="false">{{ __('Register') }}</x-responsive-nav-link>
                 </div>
-            @endguest
+            @endauth
         </div>
     </div>
 </nav>

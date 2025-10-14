@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\FoundItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // <-- Tambahkan ini
 
 class FoundItemController extends Controller
 {
-    /**
-     * Menampilkan form untuk membuat laporan baru.
-     */
+    // ... (method create, edit, update, destroy tidak perlu diubah)
+
     public function create()
     {
         return view('found-items.create');
     }
-
+    
     /**
      * Menyimpan laporan baru ke database.
      */
@@ -29,20 +29,21 @@ class FoundItemController extends Controller
 
         FoundItem::create($request->all());
 
+        // =================================================================
+        // PERUBAHAN DI SINI: Redirect berdasarkan role pengguna
+        // =================================================================
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return redirect()->route('admin.reports.index')->with('success', 'Laporan barang ditemukan berhasil ditambahkan.');
+        }
+
         return redirect()->route('items.index')->with('success', 'Laporan barang ditemukan berhasil ditambahkan.');
     }
 
-    /**
-     * Menampilkan form untuk mengedit laporan.
-     */
     public function edit(FoundItem $foundItem)
     {
         return view('found-items.edit', compact('foundItem'));
     }
 
-    /**
-     * Memperbarui laporan di database.
-     */
     public function update(Request $request, FoundItem $foundItem)
     {
         $request->validate([
@@ -57,9 +58,6 @@ class FoundItemController extends Controller
         return redirect()->route('items.index')->with('success', 'Laporan barang ditemukan berhasil diperbarui.');
     }
 
-    /**
-     * Menghapus laporan dari database. (Hanya untuk Admin)
-     */
     public function destroy(FoundItem $foundItem)
     {
         // TODO: Tambahkan otorisasi untuk Admin saja nanti
