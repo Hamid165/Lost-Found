@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
-
+Route::get('/tes-error', function () {
+    throw new Exception('Ini adalah tes untuk error 500.');
+});
 // == RUTE AUTENTIKASI BAWAAN BREEZE ==
 require __DIR__.'/auth.php';
