@@ -33,3 +33,7 @@ Berikut adalah tampilan dari beberapa halaman utama:
 
 ## Normalisasi
 ![Wireframe Report](./public/images/normalisasi.jpg)
+
+
+## Normalisasi
+![Wireframe Report](./public/images/classdiagram.jpg)
