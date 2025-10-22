@@ -44,6 +44,37 @@
                             </div>
                         </div>
                     </div>
+                    <hr class="my-6">
+                        <p class="text-lg font-semibold mb-4 text-gray-700">Informasi Pelapor</p>
+
+                        <div class="mb-4">
+                            <x-input-label for="nama_pelapor" :value="__('Nama Pelapor')" />
+                            <x-text-input id="nama_pelapor" class="block mt-1 w-full" type="text" name="nama_pelapor" :value="old('nama_pelapor')" required autofocus />
+                            <x-input-error :messages="$errors->get('nama_pelapor')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <x-input-label for="status_pelapor" :value="__('Status Pelapor')" />
+                            <select name="status_pelapor" id="status_pelapor" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="">Pilih Status</option>
+                                <option value="Mahasiswa" {{ old('status_pelapor') == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                <option value="Dosen" {{ old('status_pelapor') == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                                <option value="Lainnya" {{ old('status_pelapor') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('status_pelapor')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <x-input-label for="NIM_NIP" :value="__('NIM / NIP (Opsional)')" />
+                            <x-text-input id="NIM_NIP" class="block mt-1 w-full" type="text" name="NIM_NIP" :value="old('NIM_NIP')" />
+                            <x-input-error :messages="$errors->get('NIM_NIP')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
+                            <x-input-label for="no_telp" :value="__('No. Telepon (Opsional)')" />
+                            <x-text-input id="no_telp" class="block mt-1 w-full" type="tel" name="no_telp" :value="old('no_telp')" />
+                            <x-input-error :messages="$errors->get('no_telp')" class="mt-2" />
+                        </div>
 
                     {{-- Deskripsi --}}
                     <div>

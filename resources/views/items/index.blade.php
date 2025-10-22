@@ -37,10 +37,11 @@
                         <th class="py-3 px-6 text-center">Lokasi Penemuan</th>
                         <th class="py-3 px-6 text-center">Tanggal Penemuan</th>
                         <th class="py-3 px-6 text-center">Status</th>
+                        {{-- ======================================================= --}}
+                        {{-- PERUBAHAN: Tampilkan Aksi jika login --}}
+                        {{-- ======================================================= --}}
                         @auth
-                            @if(auth()->user()->isAdmin())
-                                <th class="py-3 px-6 text-center">Aksi</th>
-                            @endif
+                            <th class="py-3 px-6 text-center">Aksi</th>
                         @endauth
                     </tr>
                 </thead>
@@ -58,28 +59,39 @@
                                     <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
                                 @endif
                             </td>
+                            {{-- ======================================================= --}}
+                            {{-- PERUBAHAN: Logika tombol Aksi --}}
+                            {{-- ======================================================= --}}
                             @auth
-                                @if(auth()->user()->isAdmin())
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex item-center justify-center">
-                                            <a href="{{ route('admin.reports.found.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex item-center justify-center">
+                                        @if(auth()->user()->isAdmin())
+                                            {{-- AKSI ADMIN --}}
+                                            <a href="{{ route('admin.reports.found.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                            <a href="{{ route('admin.reports.found.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            {{-- PERUBAHAN 1: Hapus onsubmit, ganti tipe button, tambah class --}}
-                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer">
+                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                                 </button>
                                             </form>
-                                        </div>
-                                    </td>
-                                @endif
+                                        @else
+                                            {{-- AKSI USER BIASA --}}
+                                            <a href="{{ route('items.show.found', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </td>
                             @endauth
                         </tr>
                     @empty
-                        <td colspan="{{ auth()->check() && auth()->user()->isAdmin() ? '6' : '5' }}" class="text-center py-4">Belum ada barang temuan yang dilaporkan.</td>
+                        <td colspan="{{ auth()->check() ? '6' : '5' }}" class="text-center py-4">Belum ada barang temuan yang dilaporkan.</td>
                     @endforelse
                 </tbody>
             </table>
@@ -99,10 +111,11 @@
                         <th class="py-3 px-6 text-center">Lokasi Terakhir</th>
                         <th class="py-3 px-6 text-center">Tanggal Kehilangan</th>
                         <th class="py-3 px-6 text-center">Status</th>
+                        {{-- ======================================================= --}}
+                        {{-- PERUBAHAN: Tampilkan Aksi jika login --}}
+                        {{-- ======================================================= --}}
                         @auth
-                            @if(auth()->user()->isAdmin())
-                                <th class="py-3 px-6 text-center">Aksi</th>
-                            @endif
+                            <th class="py-3 px-6 text-center">Aksi</th>
                         @endauth
                     </tr>
                 </thead>
@@ -120,28 +133,39 @@
                                     <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
                                 @endif
                             </td>
+                            {{-- ======================================================= --}}
+                            {{-- PERUBAHAN: Logika tombol Aksi --}}
+                            {{-- ======================================================= --}}
                             @auth
-                                @if(auth()->user()->isAdmin())
-                                    <td class="py-3 px-6 text-center">
-                                        <div class="flex item-center justify-center">
-                                            <a href="{{ route('admin.reports.lost.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                <td class="py-3 px-6 text-center">
+                                    <div class="flex item-center justify-center">
+                                        @if(auth()->user()->isAdmin())
+                                            {{-- AKSI ADMIN --}}
+                                            <a href="{{ route('admin.reports.lost.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                            <a href="{{ route('admin.reports.lost.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            {{-- PERUBAHAN 2: Hapus onsubmit, ganti tipe button, tambah class --}}
-                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer">
+                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                                 </button>
                                             </form>
-                                        </div>
-                                    </td>
-                                @endif
+                                        @else
+                                            {{-- AKSI USER BIASA --}}
+                                            <a href="{{ route('items.show.lost', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </td>
                             @endauth
                         </tr>
                     @empty
-                        <td colspan="{{ auth()->check() && auth()->user()->isAdmin() ? '6' : '5' }}" class="text-center py-4">Belum ada barang hilang yang dilaporkan.</td>
+                        <td colspan="{{ auth()->check() ? '6' : '5' }}" class="text-center py-4">Belum ada barang hilang yang dilaporkan.</td>
                     @endforelse
                 </tbody>
             </table>
@@ -151,7 +175,7 @@
 </div>
 @endsection
 
-{{-- PERUBAHAN 3: Tambahkan script SweetAlert di sini --}}
+{{-- Script SweetAlert Anda (tidak ada perubahan di sini) --}}
 @push('scripts')
 <script>
     // Pastikan script hanya berjalan jika ada tombol hapus (jika admin login)

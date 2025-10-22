@@ -14,7 +14,7 @@ class FoundItemController extends Controller
     {
         return view('found-items.create');
     }
-    
+
     /**
      * Menyimpan laporan baru ke database.
      */
@@ -25,6 +25,10 @@ class FoundItemController extends Controller
             'deskripsi' => 'required|string',
             'lokasi_penemuan' => 'required|string|max:255',
             'tanggal_penemuan' => 'required|date',
+            'nama_pelapor' => 'required|string|max:255',
+            'no_telp' => 'nullable|string|max:20',
+            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP' => 'nullable|string|max:100',
         ]);
 
         FoundItem::create($request->all());
@@ -51,6 +55,10 @@ class FoundItemController extends Controller
             'deskripsi' => 'required|string',
             'lokasi_penemuan' => 'required|string|max:255',
             'tanggal_penemuan' => 'required|date',
+            'nama_pelapor' => 'required|string|max:255',
+            'no_telp' => 'nullable|string|max:20',
+            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP' => 'nullable|string|max:100',
         ]);
 
         $foundItem->update($request->all());

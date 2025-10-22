@@ -32,7 +32,7 @@
 
             {{-- Bagian Konten --}}
             <div class="bg-maroon-800 p-8 sm:p-12 text-center text-white rounded-b-lg">
-                <h1 class="text-11xl sm:text-9xl font-black tracking-wider leading-none">Oopppsss!</h1>
+                <h1 class="text-11xl sm:text-9xl font-black tracking-wider leading-none">Ops!</h1>
                 <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-tight">404 - PAGE NOT FOUND</h2>
                 <p class="mt-4 text-base sm:text-lg text-maroon-200">
                     Halaman yang anda cari tidak ditemukan, maaf ya.

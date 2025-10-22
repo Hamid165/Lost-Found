@@ -28,12 +28,19 @@ Berikut adalah tampilan dari beberapa halaman utama:
 ## Report
 ![Wireframe Report](./public/images/report.jpg)
 
+---
+
 ## ERD
 ![Wireframe Report](./public/images/erd.jpg)
+
+---
 
 ## Normalisasi
 ![Wireframe Report](./public/images/normalisasi.jpg)
 
+---
 
 ## Normalisasi
 ![Wireframe Report](./public/images/classdiagram.jpg)
+
+---

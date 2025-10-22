@@ -25,6 +25,10 @@ class LostItemController extends Controller
             'deskripsi' => 'required|string',
             'lokasi_terakhir' => 'required|string|max:255',
             'tanggal_kehilangan' => 'required|date',
+            'nama_pelapor' => 'required|string|max:255',
+            'no_telp' => 'nullable|string|max:20',
+            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP' => 'nullable|string|max:100',
         ]);
 
         LostItem::create($request->all());
@@ -51,6 +55,10 @@ class LostItemController extends Controller
             'deskripsi' => 'required|string',
             'lokasi_terakhir' => 'required|string|max:255',
             'tanggal_kehilangan' => 'required|date',
+            'nama_pelapor' => 'required|string|max:255',
+            'no_telp' => 'nullable|string|max:20',
+            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP' => 'nullable|string|max:100',
         ]);
 
         $lostItem->update($request->all());

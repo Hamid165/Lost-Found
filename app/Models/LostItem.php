@@ -20,5 +20,9 @@ class LostItem extends Model
         'lokasi_terakhir',
         'tanggal_kehilangan',
         'status',
+        'nama_pelapor',
+        'no_telp',
+        'status_pelapor',
+        'NIM_NIP',
     ];
 }

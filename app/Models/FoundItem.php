@@ -17,8 +17,12 @@ class FoundItem extends Model
     protected $fillable = [
         'nama_barang',
         'deskripsi',
-        'lokasi_penemuan',
-        'tanggal_penemuan',
+        'lokasi_terakhir',
+        'tanggal_kehilangan',
         'status',
+        'nama_pelapor',
+        'no_telp',
+        'status_pelapor',
+        'NIM_NIP',
     ];
 }

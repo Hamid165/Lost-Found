@@ -38,4 +38,22 @@ class ItemController extends Controller
 
         return view('items.index', compact('foundItems', 'lostItems'));
     }
+    public function showLost(LostItem $item)
+    {
+        return view('items.show', [
+            'item' => $item,
+            'type' => 'lost'
+        ]);
+    }
+
+    /**
+     * Menampilkan detail satu barang ditemukan.
+     */
+    public function showFound(FoundItem $item)
+    {
+        return view('items.show', [
+            'item' => $item,
+            'type' => 'found'
+        ]);
+    }
 }

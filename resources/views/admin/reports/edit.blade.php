@@ -12,9 +12,6 @@
                 <div class="bg-red-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 md:p-8 text-white">
                         
-                        {{-- ======================================================= --}}
-                        {{-- PERUBAHAN DI SINI: Judul dipindahkan ke dalam form box --}}
-                        {{-- ======================================================= --}}
                         <div class="text-center mb-6">
                             <h2 class="font-semibold text-2xl text-white leading-tight">
                                 {{ $pageTitle }}
@@ -24,6 +21,11 @@
                         <form action="{{ $updateRoute }}" method="POST">
                             @csrf
                             @method('PATCH')
+
+                            {{-- ======================================================= --}}
+                            {{-- BAGIAN INFO BARANG --}}
+                            {{-- ======================================================= --}}
+                            <p class="font-semibold text-center text-lg text-gray-100 mb-4">Informasi Barang</p>
 
                             {{-- Baris 1: Nama Barang dan Status --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -53,10 +55,44 @@
                                 </div>
                             </div>
 
+                            {{-- Deskripsi --}}
                             <div class="mt-6">
                                 <label for="deskripsi" class="block font-medium text-sm text-gray-200">Deskripsi</label>
                                 <textarea name="deskripsi" id="deskripsi" rows="4" class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-red-500 focus:border-red-500" required>{{ old('deskripsi', $item->deskripsi) }}</textarea>
                             </div>
+
+                            <hr class="my-6 border-gray-500">
+                            <p class="font-semibold text-center text-lg text-gray-100 mb-4">Informasi Pelapor</p>
+
+                            {{-- Baris 3: Nama Pelapor dan Status Pelapor --}}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="nama_pelapor" class="block font-medium text-sm text-gray-200">Nama Pelapor</label>
+                                    <input type="text" name="nama_pelapor" id="nama_pelapor" value="{{ old('nama_pelapor', $item->nama_pelapor) }}" class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-red-500 focus:border-red-500" required>
+                                </div>
+                                <div>
+                                    <label for="status_pelapor" class="block font-medium text-sm text-gray-200">Status Pelapor</label>
+                                    <select name="status_pelapor" id="status_pelapor" class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-red-500 focus:border-red-500" required>
+                                        <option value="">Pilih Status</option>
+                                        <option value="Mahasiswa" {{ old('status_pelapor', $item->status_pelapor) == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                        <option value="Dosen" {{ old('status_pelapor', $item->status_pelapor) == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                                        <option value="Lainnya" {{ old('status_pelapor', $item->status_pelapor) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            {{-- Baris 4: NIM/NIP dan No. Telp --}}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                <div>
+                                    <label for="NIM_NIP" class="block font-medium text-sm text-gray-200">NIM / NIP (Opsional)</label>
+                                    <input type="text" name="NIM_NIP" id="NIM_NIP" value="{{ old('NIM_NIP', $item->NIM_NIP) }}" class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-red-500 focus:border-red-500">
+                                </div>
+                                <div>
+                                    <label for="no_telp" class="block font-medium text-sm text-gray-200">No. Telepon (Opsional)</label>
+                                    <input type="tel" name="no_telp" id="no_telp" value="{{ old('no_telp', $item->no_telp) }}" class="mt-1 block w-full bg-white border-gray-300 rounded-md shadow-sm text-gray-900 focus:ring-red-500 focus:border-red-500">
+                                </div>
+                            </div>
+
 
                             <div class="flex items-center justify-end mt-6">
                                 <a href="{{ route('admin.reports.index') }}" class="text-gray-300 hover:text-white mr-4">

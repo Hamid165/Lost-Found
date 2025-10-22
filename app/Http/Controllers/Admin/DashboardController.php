@@ -22,7 +22,7 @@ class DashboardController extends Controller
         // PENAMBAHAN: Data untuk Kartu Statistik Status
         $foundItemsNotTaken = FoundItem::where('status', 'Belum Diambil')->count();
         $foundItemsTaken = FoundItem::where('status', 'Sudah Diambil')->count();
-        $foundItemsSecured = FoundItem::where('status', 'Diamankan')->count();
+        $foundItemsSecured = FoundItem::where('status', 'Sudah Diamankan')->count();
         $lostItemsMissing = LostItem::where('status', 'Masih Hilang')->count();
         $lostItemsReturned = LostItem::where('status', 'Sudah Dikembalikan')->count();
 

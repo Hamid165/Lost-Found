@@ -24,7 +24,6 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
 
     // Rute Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     // 2. Tambahkan semua route untuk manajemen laporan di sini
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
@@ -32,11 +31,15 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     Route::get('/reports/lost/{item}/edit', [ReportController::class, 'editLostItem'])->name('reports.lost.edit');
     Route::patch('/reports/lost/{item}', [ReportController::class, 'updateLostItem'])->name('reports.lost.update');
     Route::delete('/reports/lost/{item}', [ReportController::class, 'destroyLostItem'])->name('reports.lost.destroy');
+    Route::get('/barang/hilang/{item}', [ItemController::class, 'showLost'])->name('items.show.lost');
 
     // Rute untuk Laporan Ditemukan
     Route::get('/reports/found/{item}/edit', [ReportController::class, 'editFoundItem'])->name('reports.found.edit');
     Route::patch('/reports/found/{item}', [ReportController::class, 'updateFoundItem'])->name('reports.found.update');
     Route::delete('/reports/found/{item}', [ReportController::class, 'destroyFoundItem'])->name('reports.found.destroy');
+    Route::get('/barang/ditemukan/{item}', [ItemController::class, 'showFound'])->name('items.show.found');
+    Route::get('/reports/lost/{item}', [ReportController::class, 'showLostItem'])->name('reports.lost.show');
+    Route::get('/reports/found/{item}', [ReportController::class, 'showFoundItem'])->name('reports.found.show');
 });
 
 
@@ -53,13 +56,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', function () { return view('report'); })->name('report.index');
     Route::resource('lost-items', LostItemController::class)->except(['index', 'show']);
     Route::resource('found-items', FoundItemController::class)->except(['index', 'show']);
+    Route::get('/barang/hilang/{item}', [ItemController::class, 'showLost'])->name('items.show.lost');
+    Route::get('/barang/ditemukan/{item}', [ItemController::class, 'showFound'])->name('items.show.found');
 });
 
 
 // == RUTE AUTENTIKASI GOOGLE ==
 Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
-
 Route::get('/tes-error', function () {
     throw new Exception('Ini adalah tes untuk error 500.');
 });
