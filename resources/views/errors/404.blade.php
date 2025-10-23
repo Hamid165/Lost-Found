@@ -9,11 +9,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        /* Opsi tambahan jika ingin font custom */
+        /* Memuat font custom */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        /* Menambahkan warna marun custom langsung di CSS */
+        .bg-blue { background-color: #1E3A8A; }
+        .bg-maroon-800 { background-color: #800000; }
+        .bg-maroon-700 { background-color: #6B0F1A; }
+        .text-maroon-800 { color: #800000; }
+        .text-maroon-200 { color: #F5D0D0; }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
@@ -32,7 +39,15 @@
 
             {{-- Bagian Konten --}}
             <div class="bg-maroon-800 p-8 sm:p-12 text-center text-white rounded-b-lg">
-                <h1 class="text-11xl sm:text-9xl font-black tracking-wider leading-none">Ops!</h1>
+
+                <!--
+                  PERUBAHAN DI SINI:
+                  Menggunakan text-8xl (standar Tailwind) untuk mobile
+                  dan sm:text-9xl untuk layar lebih besar.
+                  Ini membuatnya responsif dan tidak "pecah" di HP.
+                -->
+                <h1 class="text-8xl sm:text-9xl font-black tracking-wider leading-none">Ops!</h1>
+                <br>
                 <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-tight">404 - PAGE NOT FOUND</h2>
                 <p class="mt-4 text-base sm:text-lg text-maroon-200">
                     Halaman yang anda cari tidak ditemukan, maaf ya.
@@ -49,18 +64,6 @@
         </div>
     </div>
 
-    {{-- Script untuk menambahkan warna custom --}}
-    <script>
-        // Menambahkan warna marun custom ke Tailwind
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .bg-blue { background-color: #1E3A8A; }
-            .bg-maroon-800 { background-color: #800000; }
-            .bg-maroon-700 { background-color: #6B0F1A; }
-            .text-maroon-800 { color: #800000; }
-            .text-maroon-200 { color: #F5D0D0; }
-        `;
-        document.head.appendChild(style);
-    </script>
+    {{-- Script untuk warna custom sudah dipindahkan ke <head> --}}
 </body>
 </html>

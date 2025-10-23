@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+{{-- @extends('layouts.app')  --}}
 @section('title', 'Detail Laporan')
 
 <x-app-layout>
@@ -24,7 +24,7 @@
                         <div class="mb-8">
                             <h3 class="text-xl text-center font-semibold text-gray-100 border-b border-gray-500 pb-2 mb-6">Informasi Barang</h3>
                             <dl class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                
+
                                 {{-- Setiap data dibungkus 'card' --}}
                                 <div class="bg-white shadow p-4 rounded-lg">
                                     <dt class="text-sm font-medium text-red-700">Nama Barang</dt>
@@ -38,7 +38,7 @@
                                         @php
                                             $status = $item->status;
                                             $badgeColor = 'bg-gray-200 text-gray-800'; // Default
-                                            
+
                                             if ($type == 'lost') {
                                                 if ($status == 'Masih Hilang') $badgeColor = 'bg-red-200 text-red-900';
                                                 if ($status == 'Sudah Dikembalikan') $badgeColor = 'bg-green-200 text-green-900';
@@ -114,10 +114,10 @@
 
                         {{-- Tombol Kembali (Tetap gaya "Ghost" putih) --}}
                         <div class="flex justify-end mt-8 pt-6 border-t border-gray-500">
-                            <a href="{{ route('admin.reports.index') }}" 
+                            <a href="{{ route('admin.reports.index') }}"
                                class="inline-flex items-center px-4 py-2 bg-transparent border border-gray-400 rounded-md font-semibold text-xs text-gray-200 uppercase tracking-widest
-                                      hover:bg-gray-200 hover:text-red-800 
-                                      focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-red-800 
+                                      hover:bg-gray-200 hover:text-red-800
+                                      focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 focus:ring-offset-red-800
                                       transition ease-in-out duration-150">
                                 Kembali
                             </a>

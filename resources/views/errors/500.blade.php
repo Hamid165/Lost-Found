@@ -13,6 +13,13 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        /* Definisi warna kustom dipindahkan ke sini */
+        .bg-blue { background-color: #1E3A8A; }
+        .bg-maroon-800 { background-color: #800000; }
+        .bg-maroon-700 { background-color: #6B0F1A; }
+        .text-maroon-800 { color: #800000; }
+        .text-maroon-200 { color: #F5D0D0; }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
@@ -31,7 +38,10 @@
 
             {{-- Bagian Konten --}}
             <div class="bg-maroon-800 p-8 sm:p-12 text-center text-white rounded-b-lg">
+
+                {{-- Kode ini sudah responsif (6xl di mobile, 8xl di desktop) --}}
                 <h1 class="text-6xl sm:text-8xl font-black tracking-wider leading-none">Waduh!</h1>
+
                 <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-tight">500 - TERJADI KESALAHAN</h2>
                 <p class="mt-4 text-base sm:text-lg text-maroon-200">
                     Sepertinya ada yang tidak beres di sistem kami. Maaf atas ketidaknyamanannya.
@@ -48,18 +58,6 @@
         </div>
     </div>
 
-    {{-- Script untuk menambahkan warna custom --}}
-   <script>
-        // Menambahkan warna marun custom ke Tailwind
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .bg-blue { background-color: #1E3A8A; }
-            .bg-maroon-800 { background-color: #800000; }
-            .bg-maroon-700 { background-color: #6B0F1A; }
-            .text-maroon-800 { color: #800000; }
-            .text-maroon-200 { color: #F5D0D0; }
-        `;
-        document.head.appendChild(style);
-    </script>
+    {{-- Script dipindahkan ke <head> --}}
 </body>
 </html>
