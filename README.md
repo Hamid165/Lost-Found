@@ -40,21 +40,21 @@ Berikut adalah tampilan dari beberapa halaman utama:
 
 ---
 
-## Normalisasi
+## Class Diagram
 ![Wireframe Report](./public/images/classdiagram.jpg)
 
 ---
 
-## Normalisasi
+## Usecase Diagram
 ![Wireframe Report](./public/images/usecase-diagram.png)
 
 ---
 
-## Normalisasi
+## Activity Diagram
 ![Wireframe Report](./public/images/activity-diagram.png)
 
 ---
-## Normalisasi
+## Sequence Diagram
 ![Wireframe Report](./public/images/sequence-diagram.png)
 
 ---
