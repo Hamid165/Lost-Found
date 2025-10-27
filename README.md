@@ -56,12 +56,12 @@ Berikut adalah tampilan dari beberapa halaman utama:
 ---
 
 ## Activity Diagram Laporan Penemuan
-![Wireframe Report](./public/images/laporan-penemuan-activyty.jpg)
+![Wireframe Report](./public/images/laporan-penemuan-activity.jpg)
 
 ---
 
 ## Activity Diagram Kehilangan
-![Wireframe Report](./public/images/laporan-kehilangan-activyty.jpg)
+![Wireframe Report](./public/images/laporan-kehilangan-activity.jpg)
 
 ---
 ## Sequence Diagram Laporan Penemuan
