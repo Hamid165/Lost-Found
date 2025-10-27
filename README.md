@@ -50,11 +50,26 @@ Berikut adalah tampilan dari beberapa halaman utama:
 
 ---
 
-## Activity Diagram
-![Wireframe Report](./public/images/activity-diagram.png)
+## Activity Diagram Login Register
+![Wireframe Report](./public/images/login-register-activity.jpg)
 
 ---
-## Sequence Diagram
-![Wireframe Report](./public/images/sequence-diagram.png)
+
+## Activity Diagram Laporan Penemuan
+![Wireframe Report](./public/images/laporan-penemuan-activyty.jpg)
+
+---
+
+## Activity Diagram Kehilangan
+![Wireframe Report](./public/images/laporan-kehilangan-activyty.jpg)
+
+---
+## Sequence Diagram Laporan Penemuan
+![Wireframe Report](./public/images/laporan-penemuan-squence.jpg)
+
+---
+
+## Sequence Diagram Login Register
+![Wireframe Report](./public/images/login-register-sequence.jpg)
 
 ---
