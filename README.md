@@ -44,3 +44,17 @@ Berikut adalah tampilan dari beberapa halaman utama:
 ![Wireframe Report](./public/images/classdiagram.jpg)
 
 ---
+
+## Normalisasi
+![Wireframe Report](./public/images/usecase-diagram.png)
+
+---
+
+## Normalisasi
+![Wireframe Report](./public/images/activity-diagram.png)
+
+---
+## Normalisasi
+![Wireframe Report](./public/images/sequence-diagram.png)
+
+---
