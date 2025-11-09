@@ -19,7 +19,7 @@ Route::get('/barang', [ItemController::class, 'index'])->name('items.index');
 // == RUTE ADMIN (Wajib Login & Role Admin) ==
 Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     ->prefix('admin')
-    ->name('admin.') 
+    ->name('admin.')
     ->group(function () {
 
     // Rute Dashboard
@@ -28,18 +28,19 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
     // Rute untuk Laporan Hilang
-    Route::get('/reports/lost/{item}/edit', [ReportController::class, 'editLostItem'])->name('reports.lost.edit');
-    Route::patch('/reports/lost/{item}', [ReportController::class, 'updateLostItem'])->name('reports.lost.update');
-    Route::delete('/reports/lost/{item}', [ReportController::class, 'destroyLostItem'])->name('reports.lost.destroy');
-    Route::get('/barang/hilang/{item}', [ItemController::class, 'showLost'])->name('items.show.lost');
+    Route::get('/reports/lost/{lostItem:uuid}/edit', [ReportController::class, 'editLostItem'])->name('reports.lost.edit');
+    Route::patch('/reports/lost/{lostItem:uuid}', [ReportController::class, 'updateLostItem'])->name('reports.lost.update');
+    Route::delete('/reports/lost/{lostItem:uuid}', [ReportController::class, 'destroyLostItem'])->name('reports.lost.destroy');
+    Route::get('/barang/hilang/{lostItem:uuid}', [ItemController::class, 'showLost'])->name('items.show.lost');
 
     // Rute untuk Laporan Ditemukan
-    Route::get('/reports/found/{item}/edit', [ReportController::class, 'editFoundItem'])->name('reports.found.edit');
-    Route::patch('/reports/found/{item}', [ReportController::class, 'updateFoundItem'])->name('reports.found.update');
-    Route::delete('/reports/found/{item}', [ReportController::class, 'destroyFoundItem'])->name('reports.found.destroy');
-    Route::get('/barang/ditemukan/{item}', [ItemController::class, 'showFound'])->name('items.show.found');
-    Route::get('/reports/lost/{item}', [ReportController::class, 'showLostItem'])->name('reports.lost.show');
-    Route::get('/reports/found/{item}', [ReportController::class, 'showFoundItem'])->name('reports.found.show');
+    Route::get('/reports/found/{foundItem:uuid}/edit', [ReportController::class, 'editFoundItem'])->name('reports.found.edit');
+    Route::patch('/reports/found/{foundItem:uuid}', [ReportController::class, 'updateFoundItem'])->name('reports.found.update');
+    Route::delete('/reports/found/{foundItem:uuid}', [ReportController::class, 'destroyFoundItem'])->name('reports.found.destroy');
+    Route::get('/barang/ditemukan/{foundItem:uuid}', [ItemController::class, 'showFound'])->name('items.show.found');
+
+    Route::get('/reports/lost/{lostItem:uuid}', [ReportController::class, 'showLostItem'])->name('reports.lost.show');
+    Route::get('/reports/found/{foundItem:uuid}', [ReportController::class, 'showFoundItem'])->name('reports.found.show');
 });
 
 
@@ -56,8 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', function () { return view('report'); })->name('report.index');
     Route::resource('lost-items', LostItemController::class)->except(['index', 'show']);
     Route::resource('found-items', FoundItemController::class)->except(['index', 'show']);
-    Route::get('/barang/hilang/{item}', [ItemController::class, 'showLost'])->name('items.show.lost');
-    Route::get('/barang/ditemukan/{item}', [ItemController::class, 'showFound'])->name('items.show.found');
+    Route::get('/barang/hilang/{lostItem:uuid}', [ItemController::class, 'showLost'])->name('items.show.lost');
+    Route::get('/barang/ditemukan/{foundItem:uuid}', [ItemController::class, 'showFound'])->name('items.show.found');
 });
 
 

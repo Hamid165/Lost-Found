@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Manajemen Laporan') {{-- Saya ganti title-nya --}}
+@section('title', 'Manajemen Laporan')
 @section('content')
 <div class="container mx-auto pt-24 px-4">
     {{-- Notifikasi Sukses --}}
@@ -9,13 +9,9 @@
         </div>
     @endif
     <div class="text-center mb-12">
-        {{-- Saya ganti judulnya --}}
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">Manajemen Laporan</h1>
         <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Cari barang yang hilang atau ditemukan di bawah ini.</p>
-        
-        {{-- ======================================================= --}}
-        {{-- PERUBAHAN 1: Rute form diubah ke 'admin.reports.index' --}}
-        {{-- ======================================================= --}}
+
         <form action="{{ route('admin.reports.index') }}" method="GET" class="mt-8 max-w-2xl mx-auto">
             <div class="relative flex items-center">
                 <input type="text" name="search" placeholder="Cari nama barang, deskripsi, atau lokasi..."
@@ -65,21 +61,22 @@
                                 @if(auth()->user()->isAdmin())
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            
-                                            {{-- ======================================================= --}}
-                                            {{-- PERUBAHAN 2: Tombol Detail (mata) ditambahkan --}}
-                                            {{-- ======================================================= --}}
-                                            <a href="{{ route('admin.reports.found.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <a href="{{ route('admin.reports.found.show', $item) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </a>
-                                            
-                                            <a href="{{ route('admin.reports.found.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <a href="{{ route('admin.reports.found.edit', $item) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST" class="delete-form">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <form action="{{ route('admin.reports.found.destroy', $item) }}" method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
@@ -137,21 +134,22 @@
                                 @if(auth()->user()->isAdmin())
                                     <td class="py-3 px-6 text-center">
                                         <div class="flex item-center justify-center">
-                                            
-                                            {{-- ======================================================= --}}
-                                            {{-- PERUBAHAN 3: Tombol Detail (mata) ditambahkan --}}
-                                            {{-- ======================================================= --}}
-                                            <a href="{{ route('admin.reports.lost.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <a href="{{ route('admin.reports.lost.show', $item) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </a>
-                                            
-                                            <a href="{{ route('admin.reports.lost.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <a href="{{ route('admin.reports.lost.edit', $item) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST" class="delete-form">
+
+                                            {{-- UBAH $item->id MENJADI $item --}}
+                                            <form action="{{ route('admin.reports.lost.destroy', $item) }}" method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
