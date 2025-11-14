@@ -38,7 +38,8 @@ class LostItemController extends Controller
         LostItem::create($validated);
 
         // Redirect sesuai role
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        // Use a safe check for admin: either a 'role' field set to 'admin' or an 'is_admin' attribute/column.
+        if (Auth::check() && (Auth::user()->role === 'admin' || (Auth::user()->is_admin ?? false))) {
             return redirect()
                 ->route('admin.reports.index')
                 ->with('success', 'Laporan barang hilang berhasil ditambahkan.');
