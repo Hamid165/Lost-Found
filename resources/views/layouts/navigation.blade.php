@@ -132,7 +132,7 @@
 </button>
 
 {{-- Script Scroll --}}
-<script>
+<script nonce="{{ $csp_nonce }}">
     const scrollBtn = document.getElementById('scrollTopBtn');
 
     window.addEventListener('scroll', () => {

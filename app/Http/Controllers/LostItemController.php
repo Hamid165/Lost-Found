@@ -4,73 +4,95 @@ namespace App\Http\Controllers;
 
 use App\Models\LostItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <-- Tambahkan ini
+use Illuminate\Support\Facades\Auth;
 
 class LostItemController extends Controller
 {
-    // ... (method create, edit, update, destroy tidak perlu diubah)
-
+    /**
+     * Form create laporan.
+     */
     public function create()
     {
         return view('lost-items.create');
     }
 
     /**
-     * Menyimpan laporan baru ke database.
+     * Simpan laporan baru.
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_barang' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'lokasi_terakhir' => 'required|string|max:255',
+        $validated = $request->validate([
+            'nama_barang'       => 'required|string|max:255|regex:/^[^<>]*$/',
+            'deskripsi'         => 'required|string',
+            'lokasi_terakhir'   => 'required|string|max:255|regex:/^[^<>]*$/',
             'tanggal_kehilangan' => 'required|date',
-            'nama_pelapor' => 'required|string|max:255',
-            'no_telp' => 'nullable|string|max:20',
-            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
-            'NIM_NIP' => 'nullable|string|max:100',
+            'nama_pelapor'      => 'required|string|max:255',
+            'no_telp'           => 'nullable|string|max:20',
+            'status_pelapor'    => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP'           => 'nullable|string|max:100',
+        ], [
+            'nama_barang.regex'     => 'Nama barang tidak boleh mengandung karakter HTML (< atau >).',
+            'lokasi_terakhir.regex' => 'Lokasi tidak boleh mengandung karakter HTML (< atau >).',
         ]);
 
-        LostItem::create($request->all());
+        LostItem::create($validated);
 
-        // =================================================================
-        // PERUBAHAN DI SINI: Redirect berdasarkan role pengguna
-        // =================================================================
+        // Redirect sesuai role
         if (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect()->route('admin.reports.index')->with('success', 'Laporan barang hilang berhasil ditambahkan.');
+            return redirect()
+                ->route('admin.reports.index')
+                ->with('success', 'Laporan barang hilang berhasil ditambahkan.');
         }
 
-        return redirect()->route('items.index')->with('success', 'Laporan barang hilang berhasil ditambahkan.');
+        return redirect()
+            ->route('items.index')
+            ->with('success', 'Laporan barang hilang berhasil ditambahkan.');
     }
 
+    /**
+     * Form edit laporan.
+     */
     public function edit(LostItem $lostItem)
     {
         return view('lost-items.edit', compact('lostItem'));
     }
 
+    /**
+     * Update laporan.
+     */
     public function update(Request $request, LostItem $lostItem)
     {
-        $request->validate([
-            'nama_barang' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'lokasi_terakhir' => 'required|string|max:255',
+        $validated = $request->validate([
+            'nama_barang'       => 'required|string|max:255|regex:/^[^<>]*$/',
+            'deskripsi'         => 'required|string',
+            'lokasi_terakhir'   => 'required|string|max:255|regex:/^[^<>]*$/',
             'tanggal_kehilangan' => 'required|date',
-            'nama_pelapor' => 'required|string|max:255',
-            'no_telp' => 'nullable|string|max:20',
-            'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
-            'NIM_NIP' => 'nullable|string|max:100',
+            'nama_pelapor'      => 'required|string|max:255',
+            'no_telp'           => 'nullable|string|max:20',
+            'status_pelapor'    => 'required|string|in:Mahasiswa,Dosen,Lainnya',
+            'NIM_NIP'           => 'nullable|string|max:100',
+        ], [
+            'nama_barang.regex'     => 'Nama barang tidak boleh mengandung karakter HTML (< atau >).',
+            'lokasi_terakhir.regex' => 'Lokasi tidak boleh mengandung karakter HTML (< atau >).',
         ]);
 
-        $lostItem->update($request->all());
+        $lostItem->update($validated);
 
-        return redirect()->route('items.index')->with('success', 'Laporan barang hilang berhasil diperbarui.');
+        return redirect()
+            ->route('items.index')
+            ->with('success', 'Laporan barang hilang berhasil diperbarui.');
     }
 
+    /**
+     * Hapus laporan.
+     */
     public function destroy(LostItem $lostItem)
     {
-        // TODO: Tambahkan otorisasi untuk Admin saja nanti
+        // (Nanti bisa tambahkan authorization Admin-only)
         $lostItem->delete();
 
-        return redirect()->route('items.index')->with('success', 'Laporan barang hilang berhasil dihapus.');
+        return redirect()
+            ->route('items.index')
+            ->with('success', 'Laporan barang hilang berhasil dihapus.');
     }
 }
