@@ -54,7 +54,7 @@ Pastikan Anda memiliki perangkat lunak berikut sebelum instalasi:
 
 1.  Clone repositori ini:
     ```bash
-    git clone [https://github.com/hamid165/lost-found.git](https://github.com/hamid165/lost-found.git)
+    git clone https://github.com/hamid165/lost-found.git
     ```
 2.  Masuk ke direktori proyek:
     ```bash
@@ -73,7 +73,7 @@ Pastikan Anda memiliki perangkat lunak berikut sebelum instalasi:
     cp .env.example .env
     php artisan key:generate
     ```
-6.  Konfigurasikan file `.env` Anda dengan detail koneksi database (DB_DATABASE, DB_USERNAME, DB_PASSWORD) dan kredensial Google Socialite.
+6.  Konfigurasikan file `.env` Anda dengan detail koneksi database (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
 7.  Jalankan migrasi database (dan *seeder* untuk akun admin):
     ```bash
     php artisan migrate --seed
