@@ -37,9 +37,6 @@
                         <th class="py-3 px-6 text-center">Lokasi Penemuan</th>
                         <th class="py-3 px-6 text-center">Tanggal Penemuan</th>
                         <th class="py-3 px-6 text-center">Status</th>
-                        {{-- ======================================================= --}}
-                        {{-- PERUBAHAN: Tampilkan Aksi jika login --}}
-                        {{-- ======================================================= --}}
                         @auth
                             <th class="py-3 px-6 text-center">Aksi</th>
                         @endauth
@@ -59,21 +56,20 @@
                                     <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
                                 @endif
                             </td>
-                            {{-- ======================================================= --}}
-                            {{-- PERUBAHAN: Logika tombol Aksi --}}
-                            {{-- ======================================================= --}}
                             @auth
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         @if(auth()->user()->isAdmin())
-                                            {{-- AKSI ADMIN --}}
-                                            <a href="{{ route('admin.reports.found.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                            {{-- ======================================================= --}}
+                                            {{-- PERBAIKAN ADMIN: $item->id -> $item->uuid            --}}
+                                            {{-- ======================================================= --}}
+                                            <a href="{{ route('admin.reports.found.show', ['foundItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                             </a>
-                                            <a href="{{ route('admin.reports.found.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+                                            <a href="{{ route('admin.reports.found.edit', ['foundItem' => $item->uuid]) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            <form action="{{ route('admin.reports.found.destroy', $item->id) }}" method="POST" class="inline">
+                                            <form action="{{ route('admin.reports.found.destroy', ['foundItem' => $item->uuid]) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
@@ -81,8 +77,10 @@
                                                 </button>
                                             </form>
                                         @else
-                                            {{-- AKSI USER BIASA --}}
-                                            <a href="{{ route('items.show.found', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                            {{-- ======================================================= --}}
+                                            {{-- PERBAIKAN USER: $item->id -> $item->uuid              --}}
+                                            {{-- ======================================================= --}}
+                                            <a href="{{ route('items.show.found', ['foundItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                             </a>
                                         @endif
@@ -111,9 +109,6 @@
                         <th class="py-3 px-6 text-center">Lokasi Terakhir</th>
                         <th class="py-3 px-6 text-center">Tanggal Kehilangan</th>
                         <th class="py-3 px-6 text-center">Status</th>
-                        {{-- ======================================================= --}}
-                        {{-- PERUBAHAN: Tampilkan Aksi jika login --}}
-                        {{-- ======================================================= --}}
                         @auth
                             <th class="py-3 px-6 text-center">Aksi</th>
                         @endauth
@@ -133,21 +128,20 @@
                                     <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
                                 @endif
                             </td>
-                            {{-- ======================================================= --}}
-                            {{-- PERUBAHAN: Logika tombol Aksi --}}
-                            {{-- ======================================================= --}}
                             @auth
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex item-center justify-center">
                                         @if(auth()->user()->isAdmin())
-                                            {{-- AKSI ADMIN --}}
-                                            <a href="{{ route('admin.reports.lost.show', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                            {{-- ======================================================= --}}
+                                            {{-- PERBAIKAN ADMIN: $item->id -> $item->uuid            --}}
+                                            {{-- ======================================================= --}}
+                                            <a href="{{ route('admin.reports.lost.show', ['lostItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                             </a>
-                                            <a href="{{ route('admin.reports.lost.edit', $item->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+                                            <a href="{{ route('admin.reports.lost.edit', ['lostItem' => $item->uuid]) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-                                            <form action="{{ route('admin.reports.lost.destroy', $item->id) }}" method="POST" class="inline">
+                                            <form action="{{ route('admin.reports.lost.destroy', ['lostItem' => $item->uuid]) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
@@ -155,8 +149,10 @@
                                                 </button>
                                             </form>
                                         @else
-                                            {{-- AKSI USER BIASA --}}
-                                            <a href="{{ route('items.show.lost', $item->id) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                            {{-- ======================================================= --}}
+                                            {{-- PERBAIKAN USER: $item->id -> $item->uuid              --}}
+                                            {{-- ======================================================= --}}
+                                            <a href="{{ route('items.show.lost', ['lostItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                             </a>
                                         @endif
@@ -177,7 +173,11 @@
 
 {{-- Script SweetAlert Anda (tidak ada perubahan di sini) --}}
 @push('scripts')
-<script>
+{{--
+    PERHATIAN: Pastikan script ini memiliki nonce jika Anda masih
+    menggunakan CSP yang ketat, seperti yang kita bahas sebelumnya.
+--}}
+<script @if(isset($csp_nonce)) nonce="{{ $csp_nonce }}" @endif>
     // Pastikan script hanya berjalan jika ada tombol hapus (jika admin login)
     const deleteButtons = document.querySelectorAll('.delete-button');
 

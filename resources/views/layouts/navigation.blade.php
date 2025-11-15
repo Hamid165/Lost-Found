@@ -13,7 +13,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <div class="hidden space-x-4 sm:flex">
                     <x-nav-link :href="url('/')" :active="request()->is('/')">{{ __('Beranda') }}</x-nav-link>
-                    
+
                     {{-- =================================================================== --}}
                     {{-- PERUBAHAN 1: Link "Barang" dibuat menjadi dinamis untuk Desktop --}}
                     {{-- =================================================================== --}}
@@ -24,7 +24,7 @@
                         {{-- Jika User biasa atau Tamu, arahkan ke halaman publik --}}
                         <x-nav-link :href="route('items.index')" :active="request()->routeIs('items.index')">{{ __('Barang') }}</x-nav-link>
                     @endif
-                    
+
                     <x-nav-link :href="route('report.index')" :active="request()->routeIs('report.index')">{{ __('Laporan') }}</x-nav-link>
 
                     {{-- Link khusus Admin lainnya --}}
@@ -40,7 +40,7 @@
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-300 hover:text-white focus:outline-none transition ease-in-out duration-150 bg-red-800">
                                     <div>{{ Auth::user()->name }}</div>
-                                    <img class="h-8 w-8 rounded-full object-cover ms-2" src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=FFFFFF&background=D12E37' }}" alt="{{ Auth::user()->name }}">
+                                    <img class="h-8 w-8 rounded-full object-cover ms-2" src="{{ Auth::user()->profile_photo_path ? asset('storage/'. Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name='. urlencode(Auth::user()->name). '&color=FFFFFF&background=D12E37' }}" alt="{{ Auth::user()->name }}">
                                     <div class="ms-1">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -50,9 +50,16 @@
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('profile.edit')">{{ __('Profile') }}</x-dropdown-link>
-                                <form method="POST" action="{{ route('logout') }}">
+
+                                {{-- ================================================= --}}
+                                {{-- PERBAIKAN 1: Menggunakan x-on:click untuk Desktop --}}
+                                {{-- ================================================= --}}
+                                <form method="POST" action="{{ route('logout') }}" x-ref="logoutForm">
                                     @csrf
-                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Log Out') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('logout')"
+                                                     x-on:click.prevent="$refs.logoutForm.submit()">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
                                 </form>
                             </x-slot>
                         </x-dropdown>
@@ -106,14 +113,22 @@
                         <div class="font-medium text-sm text-gray-300">{{ Auth::user()->email }}</div>
                     </div>
                     <div class="shrink-0">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&color=FFFFFF&background=D12E37' }}" alt="{{ Auth::user()->name }}">
+                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_path ? asset('storage/'. Auth::user()->profile_photo_path) : 'https://ui-avatars.com/api/?name='. urlencode(Auth::user()->name). '&color=FFFFFF&background=D12E37' }}" alt="{{ Auth::user()->name }}">
                     </div>
                 </div>
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">{{ __('Profile') }}</x-responsive-nav-link>
-                    <form method="POST" action="{{ route('logout') }}">
+
+                    {{-- =============================================== --}}
+                    {{-- PERBAIKAN 2: Menggunakan x-on:click untuk Mobile --}}
+                    {{-- =============================================== --}}
+                    <form method="POST" action="{{ route('logout') }}" x-ref="logoutFormMobile">
                         @csrf
-                        <x-responsive-nav-link :href="route('logout')" :active="false" onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Log Out') }}</x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('logout')"
+                                             :active="false"
+                                             x-on:click.prevent="$refs.logoutFormMobile.submit()">
+                            {{ __('Log Out') }}
+                        </x-responsive-nav-link>
                     </form>
                 </div>
             @else
@@ -131,7 +146,7 @@
     ↑
 </button>
 
-{{-- Script Scroll --}}
+{{-- Script Scroll (INI SUDAH BENAR, JANGAN DIUBAH) --}}
 <script nonce="{{ $csp_nonce }}">
     const scrollBtn = document.getElementById('scrollTopBtn');
 

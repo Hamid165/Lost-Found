@@ -141,8 +141,8 @@
 
     @push('scripts')
     {{-- Kode script Chart.js Anda tetap sama dan tidak perlu diubah --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+    <script nonce="{{ $csp_nonce }}" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script nonce="{{ $csp_nonce }}">
         document.addEventListener('DOMContentLoaded', function () {
             // 3. AMBIL DATA BARU (yang sekarang bulanan)
             const lineChartData = @json($chartData);

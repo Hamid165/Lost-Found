@@ -56,15 +56,31 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
+    /**
+     * Delete the user's account.
+     */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
 
+        // ==============================================================
+        // PERBAIKAN: Cek dulu apakah user punya password
+        // ==============================================================
+        if ($user->password) {
+            // Jika punya (user biasa), jalankan validasi
+            $request->validateWithBag('userDeletion', [
+                'password' => ['required', 'current_password'],
+            ]);
+        }
+        // Jika tidak punya (user Google), validasi ini akan dilewati.
+        // ==============================================================
+
         Auth::logout();
+
+        // Tambahan (opsional tapi bagus): Hapus foto profil dari storage
+        if ($user->profile_photo_path) {
+            Storage::disk('public')->delete($user->profile_photo_path);
+        }
 
         $user->delete();
 

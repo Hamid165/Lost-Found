@@ -37,13 +37,24 @@ class CspMiddleware
         // 6. Siapkan arahan (directives) kebijakan dasar
         $policy = "default-src 'self';";
 
-        // (Termasuk 'unsafe-eval' untuk Alpine.js)
+        // ====================================================================
+        // PERBAIKAN:
+        // 1. 'unsafe-inline' dihapus (karena diabaikan oleh nonce)
+        // 2. https://ui-avatars.com ditambahkan ke img-src
+        // 3. https://cdn.jsdelivr.net ditambahkan ke connect-src
+        // ====================================================================
+
+        // 'unsafe-inline' tidak diperlukan lagi karena kita pakai Alpine.js (via 'unsafe-eval') dan nonce
         $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net 'unsafe-eval'";
 
         $styleSrc = "'self' https://fonts.bunny.net 'unsafe-inline'";
         $fontSrc = "'self' https://fonts.bunny.net";
-        $imgSrc = "'self' data:";
-        $connectSrc = "'self'";
+
+        // Izinkan gambar dari ui-avatars.com
+        $imgSrc = "'self' data: https://ui-avatars.com";
+
+        // Izinkan koneksi ke CDN (untuk file .map Chart.js)
+        $connectSrc = "'self' https://cdn.jsdelivr.net";
 
         // 7. JIKA DI LOCAL: Izinkan koneksi ke Vite Dev Server
         if (App::isLocal()) {
