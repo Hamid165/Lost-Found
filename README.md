@@ -1,6 +1,6 @@
 # Lost & Found Kampus 🗺️✨
 
-![Framework](https://img.shields.io/badge/Framework-Laravel_11-FF2D20.svg)
+![Framework](https://img.shields.io/badge/Framework-Laravel_12-FF2D20.svg)
 ![Platform](https://img.shields.io/badge/Platform-Web-blue)
 ![Keamanan](https://img.shields.io/badge/Security-Hardened-brightgreen.svg)
 ![Status](https://img.shields.io/badge/Status-Development-orange.svg)
