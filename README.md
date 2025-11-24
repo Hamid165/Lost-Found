@@ -1,6 +1,6 @@
 # Lost & Found Kampus 🗺️✨
 
-![Framework](https://img.shields.io/badge/Framework-Laravel_11-FF2D20.svg)
+![Framework](https://img.shields.io/badge/Framework-Laravel_12-FF2D20.svg)
 ![Platform](https://img.shields.io/badge/Platform-Web-blue)
 ![Keamanan](https://img.shields.io/badge/Security-Hardened-brightgreen.svg)
 ![Status](https://img.shields.io/badge/Status-Development-orange.svg)
@@ -9,7 +9,7 @@ Platform terpusat untuk melaporkan dan menemukan barang hilang di lingkungan kam
 
 ## 📖 Deskripsi
 
-**Lost & Found Kampus** adalah aplikasi web berbasis Laravel 11 yang dirancang untuk mengatasi masalah barang hilang di lingkungan kampus. Aplikasi ini menyediakan platform terpusat di mana mahasiswa, dosen, dan staf dapat melaporkan barang yang hilang atau ditemukan.
+**Lost & Found Kampus** adalah aplikasi web berbasis Laravel 12 yang dirancang untuk mengatasi masalah barang hilang di lingkungan kampus. Aplikasi ini menyediakan platform terpusat di mana mahasiswa, dosen, dan staf dapat melaporkan barang yang hilang atau ditemukan.
 
 Fitur utamanya mencakup sistem autentikasi lengkap (termasuk login Google), galeri barang, manajemen profil, dan dashboard admin khusus untuk mengelola semua laporan. Proyek ini juga telah diperkuat dengan praktik keamanan modern (CSP, XSS, SQLi Protection) untuk melindungi data pengguna.
 
@@ -33,7 +33,7 @@ Proyek ini telah diperkuat dengan praktik keamanan modern untuk melindungi data 
 
 ## 💻 Tumpukan Teknologi
 
-* **Backend:** Laravel 11, PHP 8.2+
+* **Backend:** Laravel 12, PHP 8.2+
 * **Frontend:** Blade, Tailwind CSS, Alpine.js
 * **Database:** MySQL
 * **Auth:** Laravel Breeze, Laravel Socialite
