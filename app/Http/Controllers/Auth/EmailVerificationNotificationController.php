@@ -13,11 +13,21 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        // 1. Ambil user ke variabel
+        $user = $request->user();
+
+        // 2. Cek null (Safety Check)
+        if ($user === null) {
+            return redirect()->route('login');
+        }
+
+        // 3. Sekarang aman panggil method karena $user pasti object
+        if ($user->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false));
         }
 
-        $request->user()->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         return back()->with('status', 'verification-link-sent');
     }

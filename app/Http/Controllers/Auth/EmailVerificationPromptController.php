@@ -14,8 +14,17 @@ class EmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse|View
     {
-        return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(route('dashboard', absolute: false))
-                    : view('auth.verify-email');
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        $user = $request->user();
+
+        // 1. Safety check: Jika user null, redirect ke login
+        if ($user === null) {
+            return redirect()->route('login');
+        }
+
+        // 2. Sekarang aman panggil method karena $user pasti object
+        return $user->hasVerifiedEmail()
+            ? redirect()->intended(route('dashboard', absolute: false))
+            : view('auth.verify-email');
     }
 }

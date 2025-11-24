@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User; // Import Model User
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,6 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        // INI BAGIAN PALING PENTING YANG HILANG
-        // Kode ini mengambil data user yang sedang login
-        // dan mengirimkannya ke halaman 'profile.edit'
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -30,7 +28,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // PERBAIKAN: Ambil user dan cek null
+        /** @var User|null $user */
         $user = $request->user();
+
+        // Guard Clause: Jika user null (misal session habis), redirect ke login
+        if ($user === null) {
+            return Redirect::route('login');
+        }
+
+        // Sekarang PHPStan tahu $user pasti Object User, bukan null
         $user->fill($request->validated());
 
         if ($user->isDirty('email')) {
@@ -43,9 +50,17 @@ class ProfileController extends Controller
             if ($user->profile_photo_path) {
                 Storage::disk('public')->delete($user->profile_photo_path);
             }
-            // Simpan foto baru dan update path
-            $path = $request->file('profile_photo')->store('profile-photos', 'public');
-            $user->profile_photo_path = $path;
+
+            // Ambil file dengan aman
+            $file = $request->file('profile_photo');
+
+            if ($file) {
+                $path = $file->store('profile-photos', 'public');
+                // Pastikan path tidak false sebelum assign
+                if ($path) {
+                    $user->profile_photo_path = $path;
+                }
+            }
         }
 
         $user->save();
@@ -56,28 +71,25 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
+        /** @var User|null $user */
         $user = $request->user();
 
-        // ==============================================================
+        // Guard Clause lagi untuk memastikan User ada
+        if ($user === null) {
+            return Redirect::route('login');
+        }
+
         // PERBAIKAN: Cek dulu apakah user punya password
-        // ==============================================================
         if ($user->password) {
-            // Jika punya (user biasa), jalankan validasi
             $request->validateWithBag('userDeletion', [
                 'password' => ['required', 'current_password'],
             ]);
         }
-        // Jika tidak punya (user Google), validasi ini akan dilewati.
-        // ==============================================================
 
         Auth::logout();
 
-        // Tambahan (opsional tapi bagus): Hapus foto profil dari storage
         if ($user->profile_photo_path) {
             Storage::disk('public')->delete($user->profile_photo_path);
         }

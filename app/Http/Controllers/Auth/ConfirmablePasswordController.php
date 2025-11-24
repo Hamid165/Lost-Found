@@ -24,8 +24,19 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        // 1. Ambil user ke variabel dulu
+        $user = $request->user();
+
+        // 2. Cek apakah user null (safety check)
+        // Jika null (misal session habis), lempar ke halaman login
+        if ($user === null) {
+            return redirect()->route('login');
+        }
+
+        // 3. Sekarang PHPStan tahu $user pasti object User (bukan null)
         if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
+            'email' => $user->email, // Aman diakses
             'password' => $request->password,
         ])) {
             throw ValidationException::withMessages([

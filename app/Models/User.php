@@ -15,7 +15,8 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * PERBAIKAN: Ubah array<int, string> menjadi list<string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -23,13 +24,14 @@ class User extends Authenticatable
         'password',
         'google_id',
         'profile_photo_path',
-        'role', // <-- Tambahkan 'role' di sini
+        'role',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * PERBAIKAN: Ubah array<int, string> menjadi list<string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -51,10 +53,7 @@ class User extends Authenticatable
 
     /**
      * Check if the user has the admin role.
-     *
-     * @return bool
      */
-    // <-- Tambahkan method isAdmin() di sini
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

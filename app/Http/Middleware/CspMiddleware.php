@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpFoundation\Response;
 
 class CspMiddleware
 {
@@ -31,8 +31,8 @@ class CspMiddleware
         $response = $next($request);
 
         // 5. Definisikan alamat server dev (TANPA [::1] yang error)
-        $viteDevHttp = "http://localhost:5173 http://127.0.0.1:5173";
-        $viteDevWs = "ws://localhost:5173 ws://127.0.0.1:5173";
+        $viteDevHttp = 'http://localhost:5173 http://127.0.0.1:5173';
+        $viteDevWs = 'ws://localhost:5173 ws://127.0.0.1:5173';
 
         // 6. Siapkan arahan (directives) kebijakan dasar
         $policy = "default-src 'self';";

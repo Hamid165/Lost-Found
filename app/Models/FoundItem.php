@@ -4,22 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str; // <-- 1. Pastikan import ini ada
+use Illuminate\Support\Str;
 
 class FoundItem extends Model
 {
+    // PERBAIKAN 1: Tambahkan @use untuk mendefinisikan tipe Factory
+    /** @use HasFactory<\Database\Factories\FoundItemFactory> */
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * PERBAIKAN 2: Ubah array<int, string> menjadi list<string>
+     * @var list<string>
      */
     protected $fillable = [
         'nama_barang',
         'deskripsi',
-        'lokasi_penemuan', // <-- 2. INI PERBAIKANNYA
-        'tanggal_penemuan', // <-- 3. INI PERBAIKANNYA
+        'lokasi_penemuan',
+        'tanggal_penemuan',
         'status',
         'nama_pelapor',
         'no_telp',
@@ -28,7 +31,6 @@ class FoundItem extends Model
     ];
 
     /**
-     * 4. WAJIB TAMBAHKAN FUNGSI INI (untuk UUID)
      * The "booted" method of the model.
      */
     protected static function booted(): void
@@ -41,7 +43,6 @@ class FoundItem extends Model
     }
 
     /**
-     * 5. WAJIB TAMBAHKAN FUNGSI INI (untuk UUID)
      * Get the route key for the model.
      *
      * @return string

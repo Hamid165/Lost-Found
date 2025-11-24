@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\FoundItem;
+use App\Models\User; // Import Model User
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // <-- Tambahkan ini
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View; // Import View
+use Illuminate\Http\RedirectResponse; // Import RedirectResponse
 
 class FoundItemController extends Controller
 {
-    // ... (method create, edit, update, destroy tidak perlu diubah)
-
-    public function create()
+    public function create(): View
     {
         return view('found-items.create');
     }
@@ -18,7 +19,7 @@ class FoundItemController extends Controller
     /**
      * Menyimpan laporan baru ke database.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
@@ -34,21 +35,24 @@ class FoundItemController extends Controller
         FoundItem::create($request->all());
 
         // =================================================================
-        // PERUBAHAN DI SINI: Redirect berdasarkan role pengguna
+        // PERBAIKAN PHPSTAN: Cek User Type Safety
         // =================================================================
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        $user = Auth::user();
+
+        // Pastikan user ada DAN user adalah instance dari Model User kita (supaya method isAdmin dikenali)
+        if ($user instanceof User && $user->isAdmin()) {
             return redirect()->route('admin.reports.index')->with('success', 'Laporan barang ditemukan berhasil ditambahkan.');
         }
 
         return redirect()->route('items.index')->with('success', 'Laporan barang ditemukan berhasil ditambahkan.');
     }
 
-    public function edit(FoundItem $foundItem)
+    public function edit(FoundItem $foundItem): View
     {
         return view('found-items.edit', compact('foundItem'));
     }
 
-    public function update(Request $request, FoundItem $foundItem)
+    public function update(Request $request, FoundItem $foundItem): RedirectResponse
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
@@ -66,7 +70,7 @@ class FoundItemController extends Controller
         return redirect()->route('items.index')->with('success', 'Laporan barang ditemukan berhasil diperbarui.');
     }
 
-    public function destroy(FoundItem $foundItem)
+    public function destroy(FoundItem $foundItem): RedirectResponse
     {
         // TODO: Tambahkan otorisasi untuk Admin saja nanti
         $foundItem->delete();

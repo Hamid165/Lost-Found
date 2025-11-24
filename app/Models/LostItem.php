@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str; // <-- 1. PASTIKAN IMPORT INI ADA
+use Illuminate\Support\Str;
 
 class LostItem extends Model
 {
+    // PERBAIKAN 1: Definisikan tipe Factory-nya agar lolos Generic Check
+    /** @use HasFactory<\Database\Factories\LostItemFactory> */
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * PERBAIKAN 2: Ubah tipe data menjadi list<string> agar covariant dengan parent Model
+     * @var list<string>
      */
     protected $fillable = [
         'nama_barang',
@@ -28,7 +31,6 @@ class LostItem extends Model
     ];
 
     /**
-     * 2. TAMBAHKAN FUNGSI INI
      * The "booted" method of the model.
      * Otomatis mengisi kolom 'uuid' saat data baru dibuat.
      */
@@ -42,7 +44,6 @@ class LostItem extends Model
     }
 
     /**
-     * 3. TAMBAHKAN FUNGSI INI
      * Get the route key for the model.
      * Memberitahu Laravel untuk menggunakan 'uuid' di URL, bukan 'id'.
      *

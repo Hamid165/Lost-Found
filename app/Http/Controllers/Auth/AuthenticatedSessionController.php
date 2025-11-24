@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User; // <-- TAMBAHKAN INI
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Tambahkan logic redirect berdasarkan role
-        if ($request->user()->isAdmin()) {
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        // Ambil user dan pastikan dia adalah instance dari Model User kita
+        $user = $request->user();
+
+        // Cek apakah user ada DAN user tersebut admin
+        if ($user instanceof User && $user->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
 

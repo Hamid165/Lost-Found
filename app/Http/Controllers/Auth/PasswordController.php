@@ -20,8 +20,19 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
-            'password' => Hash::make($validated['password']),
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        // 1. Ambil user ke variabel
+        $user = $request->user();
+
+        // 2. Safety Check: Pastikan user tidak null sebelum update
+        if ($user === null) {
+            return redirect()->route('login');
+        }
+
+        // 3. Update password
+        // Tips: Gunakan $request->string(...)->toString() agar Hash::make tidak komplain soal tipe data 'mixed'
+        $user->update([
+            'password' => Hash::make($request->string('password')->toString()),
         ]);
 
         return back()->with('status', 'password-updated');

@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User; // Import Model User
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
@@ -17,7 +17,14 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        // Ambil user dari request
+        $user = $request->user();
+
+        // PERBAIKAN:
+        // 1. Cek $user tidak null
+        // 2. Cek $user adalah instance dari App\Models\User (supaya method isAdmin dikenali)
+        // 3. Cek method isAdmin()
+        if ($user instanceof User && $user->isAdmin()) {
             return $next($request);
         }
 

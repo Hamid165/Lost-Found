@@ -43,7 +43,9 @@ class NewPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user) use ($request) {
                 $user->forceFill([
-                    'password' => Hash::make($request->password),
+                    // PERBAIKAN 1: Gunakan helper $request->string(...)->toString()
+                    // Ini cara paling aman di Level 9 untuk mengambil input sebagai string
+                    'password' => Hash::make($request->string('password')->toString()),
                     'remember_token' => Str::random(60),
                 ])->save();
 
@@ -51,12 +53,16 @@ class NewPasswordController extends Controller
             }
         );
 
+        // PERBAIKAN 2: Beritahu PHPStan bahwa $status pasti string menggunakan PHPDoc.
+        // Casting manual (string) $status dilarang jika asalnya mixed.
+        /** @var string $status */
+
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withInput($request->only('email'))
+            ->withErrors(['email' => __($status)]);
     }
 }

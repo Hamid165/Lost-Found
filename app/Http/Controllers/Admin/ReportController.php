@@ -6,17 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\FoundItem;
 use App\Models\LostItem;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ReportController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $search = $request->input('search');
+        // PERBAIKAN PHPSTAN LEVEL 9:
+        // Gunakan helper string() agar tipe datanya pasti string (bukan mixed)
+        $search = $request->string('search')->toString();
 
         $lostItemsQuery = LostItem::query();
         $foundItemsQuery = FoundItem::query();
 
-        if ($search) {
+        // Cek string kosong lebih aman daripada sekadar if($search)
+        if ($search !== '') {
             $lostItemsQuery->where(function ($query) use ($search) {
                 $query->where('nama_barang', 'like', "%{$search}%")
                     ->orWhere('deskripsi', 'like', "%{$search}%")
@@ -44,20 +49,19 @@ class ReportController extends Controller
     // ===================================================
     // Method untuk Barang Hilang (Lost Items)
     // ===================================================
-    public function editLostItem(LostItem $lostItem)
+    public function editLostItem(LostItem $lostItem): View
     {
         return view('admin.reports.edit', [
             'item' => $lostItem,
-            // PERHATIKAN: Tidak ada ->id di sini. Cukup $lostItem.
             'updateRoute' => route('admin.reports.lost.update', $lostItem),
             'statusOptions' => ['Masih Hilang', 'Sudah Dikembalikan'],
             'locationField' => 'lokasi_terakhir',
             'dateField' => 'tanggal_kehilangan',
-            'pageTitle' => 'Edit Barang Hilang'
+            'pageTitle' => 'Edit Barang Hilang',
         ]);
     }
 
-    public function updateLostItem(Request $request, LostItem $lostItem)
+    public function updateLostItem(Request $request, LostItem $lostItem): RedirectResponse
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
@@ -70,34 +74,29 @@ class ReportController extends Controller
             'status_pelapor' => 'required|string|in:Mahasiswa,Dosen,Lainnya',
             'NIM_NIP' => 'nullable|string|max:100',
         ]);
+
         $lostItem->update($request->all());
+
         return redirect()->route('admin.reports.index')->with('success', 'Laporan barang hilang berhasil diperbarui.');
     }
-
-    // Di dalam file: app/Http/Controllers/Admin/ReportController.php
 
     // ===================================================
     // Method untuk Barang Ditemukan (Found Items)
     // ===================================================
 
-    // GANTI NAMA VARIABEL '$item' MENJADI '$foundItem'
-    public function editFoundItem(FoundItem $foundItem)
+    public function editFoundItem(FoundItem $foundItem): View
     {
         return view('admin.reports.edit', [
-            'item' => $foundItem, // Gunakan $foundItem
-
-            // Pastikan parameter kedua adalah $foundItem (tanpa ->id)
+            'item' => $foundItem,
             'updateRoute' => route('admin.reports.found.update', $foundItem),
-
             'statusOptions' => ['Belum Diambil', 'Sudah Diambil', 'Diamankan'],
             'locationField' => 'lokasi_penemuan',
             'dateField' => 'tanggal_penemuan',
-            'pageTitle' => 'Edit Barang Ditemukan'
+            'pageTitle' => 'Edit Barang Ditemukan',
         ]);
     }
 
-    // GANTI NAMA VARIABEL '$item' MENJADI '$foundItem'
-    public function updateFoundItem(Request $request, FoundItem $foundItem)
+    public function updateFoundItem(Request $request, FoundItem $foundItem): RedirectResponse
     {
         $request->validate([
             'nama_barang' => 'required|string|max:255',
@@ -111,7 +110,7 @@ class ReportController extends Controller
             'NIM_NIP' => 'nullable|string|max:100',
         ]);
 
-        $foundItem->update($request->all()); // Gunakan $foundItem
+        $foundItem->update($request->all());
 
         return redirect()->route('admin.reports.index')->with('success', 'Laporan barang ditemukan berhasil diperbarui.');
     }
@@ -119,31 +118,33 @@ class ReportController extends Controller
     // ===================================================
     // Method untuk Menghapus Laporan
     // ===================================================
-    public function destroyLostItem(LostItem $lostItem)
+    public function destroyLostItem(LostItem $lostItem): RedirectResponse
     {
         $lostItem->delete();
+
         return redirect()->route('admin.reports.index')->with('success', 'Laporan barang hilang berhasil dihapus.');
     }
 
-    public function destroyFoundItem(FoundItem $foundItem)
+    public function destroyFoundItem(FoundItem $foundItem): RedirectResponse
     {
         $foundItem->delete();
+
         return redirect()->route('admin.reports.index')->with('success', 'Laporan barang ditemukan berhasil dihapus.');
     }
 
-    public function showLostItem(LostItem $lostItem) 
+    public function showLostItem(LostItem $lostItem): View
     {
         return view('admin.reports.show', [
             'item' => $lostItem,
-            'type' => 'lost'
+            'type' => 'lost',
         ]);
     }
 
-    public function showFoundItem(FoundItem $foundItem)
+    public function showFoundItem(FoundItem $foundItem): View
     {
         return view('admin.reports.show', [
             'item' => $foundItem,
-            'type' => 'found'
+            'type' => 'found',
         ]);
     }
 }
