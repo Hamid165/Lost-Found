@@ -42,8 +42,9 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
         Route::get('/reports/found/{foundItem:uuid}', [ReportController::class, 'showFoundItem'])->name('reports.found.show');
     });
 
-// == RUTE KHUSUS PENGGUNA (Wajib Login) ==
-Route::middleware('auth')->group(function () {
+// == RUTE KHUSUS PENGGUNA (Wajib Login & Email Terverifikasi) ==
+// Perubahan di baris bawah ini: Menambahkan 'verified'
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route('items.index');
     })->name('dashboard');
@@ -67,5 +68,6 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name
 Route::get('/tes-error', function () {
     throw new Exception('Ini adalah tes untuk error 500.');
 });
+
 // == RUTE AUTENTIKASI BAWAAN BREEZE ==
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

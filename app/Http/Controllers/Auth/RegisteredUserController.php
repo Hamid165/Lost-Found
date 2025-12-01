@@ -46,6 +46,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        // Kirim email verifikasi ke user yang baru didaftarkan
+        // Method ini tersedia karena User sekarang mengimplementasikan
+        // MustVerifyEmail dan menggunakan trait yang sesuai.
+        $user->sendEmailVerificationNotification();
+
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
