@@ -45,7 +45,7 @@ class CspMiddleware
         // ====================================================================
 
         // 'unsafe-inline' tidak diperlukan lagi karena kita pakai Alpine.js (via 'unsafe-eval') dan nonce
-        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net 'unsafe-eval'";
+        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline'";
 
         $styleSrc = "'self' https://fonts.bunny.net 'unsafe-inline'";
         $fontSrc = "'self' https://fonts.bunny.net";
