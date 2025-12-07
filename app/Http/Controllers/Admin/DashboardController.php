@@ -23,7 +23,7 @@ class DashboardController extends Controller
         // 2. Data untuk Kartu Statistik Status (Tetap All-Time)
         $foundItemsNotTaken = FoundItem::where('status', 'Belum Diambil')->count();
         $foundItemsTaken = FoundItem::where('status', 'Sudah Diambil')->count();
-        $foundItemsSecured = FoundItem::where('status', 'Sudah Diamankan')->count();
+        $foundItemsSecured = FoundItem::where('status', 'Diamankan')->count();
         $lostItemsMissing = LostItem::where('status', 'Masih Hilang')->count();
         $lostItemsReturned = LostItem::where('status', 'Sudah Dikembalikan')->count();
 
