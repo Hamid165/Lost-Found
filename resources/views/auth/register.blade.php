@@ -7,20 +7,31 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Register - {{ config('app.name', 'Lost & Found') }}</title>
+    {{-- Memuat favicon --}}
     <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
+    {{-- Memuat asset Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
+{{-- Body: Font Sans, Teks Hitam, Antialiased --}}
 <body class="font-sans text-gray-900 antialiased">
+    {{-- Wrapper Halaman Penuh. min-h-screen: Full height. --}}
     <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-4">
+        
+        {{-- Card Container. max-w-4xl: Lebar maks 56rem. flex flex-1: Fleksibel mengisi ruang. --}}
         <div class="max-w-4xl m-0 bg-white shadow-lg sm:rounded-lg flex flex-1 overflow-hidden">
 
-            {{-- Bagian Kiri (Form) --}}
+            {{-- ======================================================= --}}
+            {{-- BAGIAN KIRI (Form Register) --}}
+            {{-- ======================================================= --}}
+            
+            {{-- Kolom Kiri 50% di Desktop --}}
             <div class="lg:w-1/2 xl:w-1/2 p-10 sm:p-12 flex flex-col justify-center">
                 
                 {{-- Pembungkus untuk menengahkan konten secara vertikal --}}
                 <div class="flex flex-col justify-center h-full">
+                    {{-- Judul Halaman --}}
                     <div class="text-center">
                         <h1 class="text-2xl xl:text-3xl font-extrabold">
                             Sign Up
@@ -30,12 +41,16 @@
                         </p>
                     </div>
 
+                    {{-- Wrapper Form --}}
                     <div class="w-full mt-8">
                         <div class="mx-auto max-w-xs">
                             
+                            {{-- Form Register --}}
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
+                                
                                 {{-- Input 1: Nama Lengkap --}}
+                                {{-- w-full: Lebar full. bg-gray-100: Background input abu muda. --}}
                                 <input id="name"
                                     class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border"
                                     type="text" name="name" :value="old('name')" required autofocus
@@ -59,12 +74,15 @@
                                     type="password" name="password_confirmation" required autocomplete="new-password"
                                     placeholder="Konfirmasi Password" />
 
+                                {{-- Tombol Daftar --}}
+                                {{-- bg-red-800: Merah tua. hover:bg-red-900: Hover merah lebih gelap. --}}
                                 <button type="submit"
                                     class="mt-5 tracking-wide font-semibold bg-red-800 text-gray-100 w-full py-3 rounded-lg hover:bg-red-900 transition duration-200">
                                     Daftar
                                 </button>
                             </form>
 
+                            {{-- Pemisah "Atau" --}}
                             <div class="my-6 border-b text-center">
                                 <div
                                     class="leading-none px-2 inline-block text-sm text-gray-600 bg-white transform translate-y-1/2">
@@ -72,8 +90,10 @@
                                 </div>
                             </div>
 
+                            {{-- Tombol Daftar Google --}}
                             <a href="{{ route('google.redirect') }}"
                                 class="w-full font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center hover:bg-indigo-200 transition duration-200">
+                                {{-- Icon Google --}}
                                 <div class="bg-white p-2 rounded-full">
                                     <svg class="w-4" viewBox="0 0 533.5 544.3">
                                         <path fill="#4285f4"
@@ -89,6 +109,7 @@
                                 <span class="ml-4">Daftar dengan Google</span>
                             </a>
 
+                            {{-- Footer Link: Masuk --}}
                             <div class="mt-6 text-center text-sm">
                                 <p class="text-gray-600">
                                     Sudah punya akun? <a href="{{ route('login') }}"
@@ -100,8 +121,14 @@
                 </div>
             </div>
 
-            {{-- Bagian Kanan (Gambar) --}}
-            {{-- Menggunakan background image dengan bg-cover agar penuh --}}
+            {{-- ======================================================= --}}
+            {{-- BAGIAN KANAN (Gambar Ilustrasi) --}}
+            {{-- ======================================================= --}}
+            {{-- 
+                - flex-1: Mengambil sisa ruang.
+                - bg-cover bg-center: Gambar background menutupi area & di tengah.
+                - hidden lg:flex: Hanya muncul di desktop.
+            --}}
             <div class="flex-1 bg-cover bg-center hidden lg:flex rounded-r-lg"
                  style="background-image: url('{{ asset('images/telu.png') }}');">
             </div>
@@ -111,3 +138,39 @@
 </body>
 
 </html>
+
+{{-- ========================================================================================= --}}
+{{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
+{{-- ========================================================================================= --}}
+{{-- 
+    1. MENGUBAH WARNA (Background & Text)
+       Format: 'bg-{warna}-{intensitas}' atau 'text-{warna}-{intensitas}'
+       Contoh:
+       - 'bg-red-800' (Merah Tua)    -> Ubah ke 'bg-blue-600' (Biru Sedang) atau 'bg-green-500' (Hijau)
+       - 'text-white' (Putih)         -> Ubah ke 'text-black' (Hitam) atau 'text-gray-200' (Abu Terang)
+       
+       CATATAN PENTING:
+       - Jika Anda mengubah 'bg-white' menjadi 'blue', itu TIDAK AKAN BERJALAN.
+       - Anda harus spesifik: 'bg-blue-500' (standar).
+       - Angka intensitas: 
+         50 (paling terang), 100, 200, 300, 400, 500 (standar), 600, 700, 800, 900 (paling gelap).
+       - Jika angka tidak cocok (misal 'bg-blue-333'), class tersebut tidak akan dikenali dan warnanya hilang.
+
+    2. MENGUBAH UKURAN TEXT
+       Format: 'text-{ukuran}'
+       Pilihan:
+       - 'text-xs'   (Sangat Kecil)
+       - 'text-sm'   (Kecil)
+       - 'text-base' (Normal/Standar)
+       - 'text-lg'   (Besar)
+       - 'text-xl'   (Lebih Besar)
+       - 'text-2xl' s/d 'text-9xl' (Sangat Besar untuk Judul)
+
+    3. MENGUBAH JARAK (Margin & Padding)
+       - Margin (Jarak Luar): 'm-{ukuran}' (semua sisi), 'my-{ukuran}' (atas-bawah), 'mx-{ukuran}' (kiri-kanan)
+       - Padding (Jarak Dalam): 'p-{ukuran}' (sama seperti margin formatnya)
+       Contoh:
+       - 'mb-4' (Margin Bawah level 4) -> Ubah ke 'mb-8' (lebih jauh) atau 'mb-2' (lebih dekat).
+       - Skala ukuran Tailwind: 0, 1, 2, 4, 8, 12, 16, 20, dll.
+--}}
+{{-- ========================================================================================= --}}

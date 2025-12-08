@@ -9,12 +9,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
+        @import url('https://fonts.bunny.net/css?family=figtree:400,500,600,700,900&display=swap');
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Figtree', sans-serif;
         }
 
-        /* Definisi warna kustom dipindahkan ke sini */
+        /* 
+           Warna Custom.
+           Didefinisikan di sini karena warna spesifik (hex code) belum tentu ada di config standar Tailwind.
+        */
         .bg-blue { background-color: #1E3A8A; }
         .bg-maroon-800 { background-color: #800000; }
         .bg-maroon-700 { background-color: #6B0F1A; }
@@ -22,13 +25,17 @@
         .text-maroon-200 { color: #F5D0D0; }
     </style>
 </head>
+{{-- Body: Flexbox center, background abu, padding 1rem --}}
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
+    {{-- Wrapper Card Utama --}}
     <div class="w-full max-w-2xl mx-auto">
-        {{-- Desain Kotak Jendela --}}
+        {{-- Card Jendela --}}
         <div class="bg-white rounded-lg shadow-2xl">
-            {{-- Bagian Header Jendela --}}
+            
+            {{-- Header Window (Title Bar) --}}
             <div class="bg-maroon-700 p-3 flex items-center rounded-t-lg">
+                {{-- Tombol Dekoratif --}}
                 <div class="flex space-x-2">
                     <span class="block w-3 h-3 bg-white rounded-full"></span>
                     <span class="block w-3 h-3 bg-yellow-500 rounded-full"></span>
@@ -36,13 +43,16 @@
                 </div>
             </div>
 
-            {{-- Bagian Konten --}}
+            {{-- Isi Konten --}}
             <div class="bg-maroon-800 p-8 sm:p-12 text-center text-white rounded-b-lg">
 
-                {{-- Kode ini sudah responsif (6xl di mobile, 8xl di desktop) --}}
+                {{-- Judul Besar "Waduh!" --}}
                 <h1 class="text-6xl sm:text-8xl font-black tracking-wider leading-none">Waduh!</h1>
 
+                {{-- Subjudul 500 --}}
                 <h2 class="mt-2 text-2xl sm:text-3xl font-bold tracking-tight">500 - TERJADI KESALAHAN</h2>
+                
+                {{-- Pesan Error --}}
                 <p class="mt-4 text-base sm:text-lg text-maroon-200">
                     Sepertinya ada yang tidak beres di sistem kami. Maaf atas ketidaknyamanannya.
                 </p>
@@ -58,6 +68,41 @@
         </div>
     </div>
 
-    {{-- Script dipindahkan ke <head> --}}
 </body>
 </html>
+
+{{-- ========================================================================================= --}}
+{{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
+{{-- ========================================================================================= --}}
+{{-- 
+    1. MENGUBAH WARNA (Background & Text)
+       Format: 'bg-{warna}-{intensitas}' atau 'text-{warna}-{intensitas}'
+       Contoh:
+       - 'bg-red-800' (Merah Tua)    -> Ubah ke 'bg-blue-600' (Biru Sedang) atau 'bg-green-500' (Hijau)
+       - 'text-white' (Putih)         -> Ubah ke 'text-black' (Hitam) atau 'text-gray-200' (Abu Terang)
+       
+       CATATAN PENTING:
+       - Jika Anda mengubah 'bg-white' menjadi 'blue', itu TIDAK AKAN BERJALAN.
+       - Anda harus spesifik: 'bg-blue-500' (standar).
+       - Angka intensitas: 
+         50 (paling terang), 100, 200, 300, 400, 500 (standar), 600, 700, 800, 900 (paling gelap).
+       - Jika angka tidak cocok (misal 'bg-blue-333'), class tersebut tidak akan dikenali dan warnanya hilang.
+
+    2. MENGUBAH UKURAN TEXT
+       Format: 'text-{ukuran}'
+       Pilihan:
+       - 'text-xs'   (Sangat Kecil)
+       - 'text-sm'   (Kecil)
+       - 'text-base' (Normal/Standar)
+       - 'text-lg'   (Besar)
+       - 'text-xl'   (Lebih Besar)
+       - 'text-2xl' s/d 'text-9xl' (Sangat Besar untuk Judul)
+
+    3. MENGUBAH JARAK (Margin & Padding)
+       - Margin (Jarak Luar): 'm-{ukuran}' (semua sisi), 'my-{ukuran}' (atas-bawah), 'mx-{ukuran}' (kiri-kanan)
+       - Padding (Jarak Dalam): 'p-{ukuran}' (sama seperti margin formatnya)
+       Contoh:
+       - 'mb-4' (Margin Bawah level 4) -> Ubah ke 'mb-8' (lebih jauh) atau 'mb-2' (lebih dekat).
+       - Skala ukuran Tailwind: 0, 1, 2, 4, 8, 12, 16, 20, dll.
+--}}
+{{-- ========================================================================================= --}}

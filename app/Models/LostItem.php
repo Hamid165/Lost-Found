@@ -6,37 +6,48 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * Class LostItem
+ *
+ * Model ini merepresentasikan tabel 'lost_items' di database.
+ * Digunakan untuk menyimpan data laporan barang yang hilang.
+ */
 class LostItem extends Model
 {
-    // PERBAIKAN 1: Definisikan tipe Factory-nya agar lolos Generic Check
-    /** @use HasFactory<\Database\Factories\LostItemFactory> */
+    // Menggunakan trait HasFactory untuk keperluan testing (Factory).
+    // @use HasFactory<\Database\Factories\LostItemFactory>
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Properti $fillable menentukan kolom mana saja yang boleh diisi secara massal (Mass Assignment).
      *
-     * PERBAIKAN 2: Ubah tipe data menjadi list<string> agar covariant dengan parent Model
+     * Mass Assignment adalah saat data disimpan sekaligus dari array, misal: LostItem::create($data).
+     * Kolom yang tidak terdaftar di sini tidak akan bisa diupdate via mass assignment demi keamanan.
+     *
      * @var list<string>
      */
     protected $fillable = [
-        'nama_barang',
-        'deskripsi',
-        'lokasi_terakhir',
-        'tanggal_kehilangan',
-        'status',
-        'nama_pelapor',
-        'no_telp',
-        'status_pelapor',
-        'NIM_NIP',
+        'nama_barang',          // Nama barang yang hilang
+        'deskripsi',            // Detail ciri-ciri barang
+        'lokasi_terakhir',      // Lokasi terakhir barang terlihat/diketahui
+        'tanggal_kehilangan',   // Waktu kehilangan
+        'status',               // Status laporan (misal: 'Masih Hilang', 'Sudah Dikembalikan')
+        'nama_pelapor',         // Nama pelapor kehilangan
+        'no_telp',              // Kontak pelapor (opsional)
+        'status_pelapor',       // Status pelapor (Mahasiswa/Dosen/dll)
+        'NIM_NIP',              // Identitas tambahan pelapor (opsional)
     ];
 
     /**
-     * The "booted" method of the model.
-     * Otomatis mengisi kolom 'uuid' saat data baru dibuat.
+     * Method 'booted' dijalankan secara otomatis saat model diinisialisasi oleh Framework.
+     *
+     * Digunakan di sini untuk mendengarkan event 'creating' (saat data baru akan dibuat).
+     * Fungsi: Mengisi kolom 'uuid' secara otomatis dengan UUID v4 sebelum data masuk ke database.
      */
     protected static function booted(): void
     {
         static::creating(function ($model) {
+            // Jika UUID belum diisi manual, generate UUID baru
             if (empty($model->uuid)) {
                 $model->uuid = (string) Str::uuid();
             }
@@ -44,8 +55,10 @@ class LostItem extends Model
     }
 
     /**
-     * Get the route key for the model.
-     * Memberitahu Laravel untuk menggunakan 'uuid' di URL, bukan 'id'.
+     * Menentukan kolom yang digunakan untuk pencarian model saat menggunakan Route Model Binding.
+     *
+     * Secara default, Laravel menggunakan kolom 'id' (Auto Increment Integer).
+     * Kita override menjadi 'uuid' agar URL menggunakan string UUID yang unik dan acak.
      *
      * @return string
      */
