@@ -24,21 +24,28 @@
         </form>
     </div>
 
-    {{-- Tabel Barang Ditemukan --}}
-    <div class="bg-white rounded-lg shadow-md p-8 mb-10">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Barang Ditemukan</h1>
+    {{-- ========================================== --}}
+    {{-- TABEL BARANG DITEMUKAN --}}
+    {{-- ========================================== --}}
+    <div class="bg-white rounded-lg shadow-md p-4 md:p-8 mb-10">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Daftar Barang Ditemukan</h1>
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white">
                 <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
                     <tr>
-                        <th class="py-3 px-6 text-left">Nama Barang</th>
-                        <th class="py-3 px-6 text-left">Deskripsi</th>
-                        <th class="py-3 px-6 text-center">Lokasi Penemuan</th>
-                        <th class="py-3 px-6 text-center">Tanggal Penemuan</th>
-                        <th class="py-3 px-6 text-center">Status</th>
+                        {{-- Nama: Padding responsif --}}
+                        <th class="py-3 px-2 md:px-6 text-left">Nama Barang</th>
+
+                        {{-- Sembunyikan Deskripsi, Lokasi, Tanggal di HP --}}
+                        <th class="py-3 px-6 text-left hidden md:table-cell">Deskripsi</th>
+                        <th class="py-3 px-6 text-center hidden md:table-cell">Lokasi Penemuan</th>
+                        <th class="py-3 px-6 text-center hidden md:table-cell">Tanggal Penemuan</th>
+
+                        {{-- Status & Aksi: Padding responsif --}}
+                        <th class="py-3 px-2 md:px-6 text-center">Status</th>
                         @auth
                             @if(auth()->user()->isAdmin())
-                                <th class="py-3 px-6 text-center">Aksi</th>
+                                <th class="py-3 px-2 md:px-6 text-center">Aksi</th>
                             @endif
                         @endauth
                     </tr>
@@ -46,37 +53,49 @@
                 <tbody class="text-gray-600 text-sm font-light">
                     @forelse ($foundItems as $item)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">{{ $item->nama_barang }}</td>
-                            <td class="py-3 px-6 text-left">{{ Str::limit($item->deskripsi, 40) }}</td>
-                            <td class="py-3 px-6 text-center">{{ $item->lokasi_penemuan }}</td>
-                            <td class="py-3 px-6 text-center">{{ \Carbon\Carbon::parse($item->tanggal_penemuan)->format('d M Y') }}</td>
-                            <td class="py-3 px-6 text-center">
+                            {{-- Nama Barang + Info Tanggal (khusus HP) --}}
+                            <td class="py-3 px-2 md:px-6 text-left whitespace-nowrap align-middle">
+                                <span class="font-medium text-gray-700">{{ $item->nama_barang }}</span>
+                                {{-- Tampilkan tanggal & lokasi kecil di bawah nama (Hanya di HP) --}}
+                                <div class="md:hidden text-[10px] text-gray-400 mt-1 leading-tight">
+                                    {{ \Carbon\Carbon::parse($item->tanggal_penemuan)->format('d M Y') }}<br>
+                                    {{ Str::limit($item->lokasi_penemuan, 15) }}
+                                </div>
+                            </td>
+
+                            {{-- Kolom Desktop Only --}}
+                            <td class="py-3 px-6 text-left hidden md:table-cell">{{ Str::limit($item->deskripsi, 40) }}</td>
+                            <td class="py-3 px-6 text-center hidden md:table-cell">{{ $item->lokasi_penemuan }}</td>
+                            <td class="py-3 px-6 text-center hidden md:table-cell">{{ \Carbon\Carbon::parse($item->tanggal_penemuan)->format('d M Y') }}</td>
+
+                            {{-- Status: whitespace-nowrap agar tidak turun baris --}}
+                            <td class="py-3 px-2 md:px-6 text-center whitespace-nowrap align-middle">
                                 @if($item->status == 'Belum Diambil')
-                                    <span class="bg-yellow-200 text-yellow-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
+                                    <span class="bg-yellow-200 text-yellow-700 py-1 px-2 md:px-3 rounded-full text-[10px] md:text-xs font-semibold">
+                                        {{ $item->status }}
+                                    </span>
                                 @else
-                                    <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
+                                    <span class="bg-green-200 text-green-700 py-1 px-2 md:px-3 rounded-full text-[10px] md:text-xs font-semibold">
+                                        {{ $item->status }}
+                                    </span>
                                 @endif
                             </td>
+
+                            {{-- Aksi --}}
                             @auth
                                 @if(auth()->user()->isAdmin())
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-2 md:px-6 text-center align-middle">
                                         <div class="flex item-center justify-center">
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
                                             <a href="{{ route('admin.reports.found.show', $item) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </a>
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
                                             <a href="{{ route('admin.reports.found.edit', $item) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
-                                            <form action="{{ route('admin.reports.found.destroy', $item) }}" method="POST" class="delete-form">
+                                            <form action="{{ route('admin.reports.found.destroy', $item) }}" method="POST" class="delete-form inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
@@ -97,21 +116,26 @@
         <div class="mt-6">{{ $foundItems->appends(request()->query())->links('vendor.pagination.tailwind-white') }}</div>
     </div>
 
-    {{-- Tabel Barang Hilang --}}
-    <div class="bg-white rounded-lg shadow-md p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Barang Hilang</h1>
+    {{-- ========================================== --}}
+    {{-- TABEL BARANG HILANG --}}
+    {{-- ========================================== --}}
+    <div class="bg-white rounded-lg shadow-md p-4 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Daftar Barang Hilang</h1>
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white">
                 <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
                     <tr>
-                        <th class="py-3 px-6 text-left">Nama Barang</th>
-                        <th class="py-3 px-6 text-left">Deskripsi</th>
-                        <th class="py-3 px-6 text-center">Lokasi Terakhir</th>
-                        <th class="py-3 px-6 text-center">Tanggal Kehilangan</th>
-                        <th class="py-3 px-6 text-center">Status</th>
+                        <th class="py-3 px-2 md:px-6 text-left">Nama Barang</th>
+
+                        {{-- Hidden on Mobile --}}
+                        <th class="py-3 px-6 text-left hidden md:table-cell">Deskripsi</th>
+                        <th class="py-3 px-6 text-center hidden md:table-cell">Lokasi Terakhir</th>
+                        <th class="py-3 px-6 text-center hidden md:table-cell">Tanggal Kehilangan</th>
+
+                        <th class="py-3 px-2 md:px-6 text-center">Status</th>
                         @auth
                             @if(auth()->user()->isAdmin())
-                                <th class="py-3 px-6 text-center">Aksi</th>
+                                <th class="py-3 px-2 md:px-6 text-center">Aksi</th>
                             @endif
                         @endauth
                     </tr>
@@ -119,37 +143,48 @@
                 <tbody class="text-gray-600 text-sm font-light">
                     @forelse ($lostItems as $item)
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">{{ $item->nama_barang }}</td>
-                            <td class="py-3 px-6 text-left">{{ Str::limit($item->deskripsi, 40) }}</td>
-                            <td class="py-3 px-6 text-center">{{ $item->lokasi_terakhir }}</td>
-                            <td class="py-3 px-6 text-center">{{ \Carbon\Carbon::parse($item->tanggal_kehilangan)->format('d M Y') }}</td>
-                            <td class="py-3 px-6 text-center">
+                            {{-- Nama Barang + Info Mobile --}}
+                            <td class="py-3 px-2 md:px-6 text-left whitespace-nowrap align-middle">
+                                <span class="font-medium text-gray-700">{{ $item->nama_barang }}</span>
+                                <div class="md:hidden text-[10px] text-gray-400 mt-1 leading-tight">
+                                    {{ \Carbon\Carbon::parse($item->tanggal_kehilangan)->format('d M Y') }}<br>
+                                    {{ Str::limit($item->lokasi_terakhir, 15) }}
+                                </div>
+                            </td>
+
+                            {{-- Hidden on Mobile --}}
+                            <td class="py-3 px-6 text-left hidden md:table-cell">{{ Str::limit($item->deskripsi, 40) }}</td>
+                            <td class="py-3 px-6 text-center hidden md:table-cell">{{ $item->lokasi_terakhir }}</td>
+                            <td class="py-3 px-6 text-center hidden md:table-cell">{{ \Carbon\Carbon::parse($item->tanggal_kehilangan)->format('d M Y') }}</td>
+
+                            {{-- Status Badge --}}
+                            <td class="py-3 px-2 md:px-6 text-center whitespace-nowrap align-middle">
                                 @if($item->status == 'Masih Hilang')
-                                    <span class="bg-red-200 text-red-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
+                                    <span class="bg-red-200 text-red-700 py-1 px-2 md:px-3 rounded-full text-[10px] md:text-xs font-semibold">
+                                        {{ $item->status }}
+                                    </span>
                                 @else
-                                    <span class="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-semibold">{{ $item->status }}</span>
+                                    <span class="bg-green-200 text-green-700 py-1 px-2 md:px-3 rounded-full text-[10px] md:text-xs font-semibold">
+                                        {{ $item->status }}
+                                    </span>
                                 @endif
                             </td>
+
+                            {{-- Aksi --}}
                             @auth
                                 @if(auth()->user()->isAdmin())
-                                    <td class="py-3 px-6 text-center">
+                                    <td class="py-3 px-2 md:px-6 text-center align-middle">
                                         <div class="flex item-center justify-center">
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
                                             <a href="{{ route('admin.reports.lost.show', $item) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </a>
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
                                             <a href="{{ route('admin.reports.lost.edit', $item) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
                                             </a>
-
-                                            {{-- UBAH $item->id MENJADI $item --}}
-                                            <form action="{{ route('admin.reports.lost.destroy', $item) }}" method="POST" class="delete-form">
+                                            <form action="{{ route('admin.reports.lost.destroy', $item) }}" method="POST" class="delete-form inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">

@@ -17,7 +17,17 @@
         <div class="max-w-4xl m-0 bg-white shadow-lg sm:rounded-lg flex flex-1 overflow-hidden">
 
             {{-- Bagian Kiri (Form) --}}
-            <div class="lg:w-1/2 xl:w-1/2 p-10 sm:p-12 flex flex-col justify-center">
+            {{-- PERUBAHAN 1: Tambahkan class 'relative' di sini agar tombol bisa diposisikan absolute --}}
+            <div class="lg:w-1/2 xl:w-1/2 p-10 sm:p-12 flex flex-col justify-center relative">
+
+                {{-- PERUBAHAN 2: Tambahkan Tombol Kembali di sini --}}
+                <a href="/" class="absolute top-5 left-5 flex items-center text-sm text-gray-500 hover:text-red-800 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    
+                </a>
+
                 <div class="flex flex-col justify-center h-full">
                     <div class="text-center">
                         <h1 class="text-2xl xl:text-3xl font-extrabold">
@@ -83,11 +93,10 @@
             </div>
 
             {{-- Bagian Kanan (Gambar) --}}
-           <div class="flex-1 bg-gray-100 text-center hidden lg:flex rounded-r-lg items-center justify-center overflow-hidden">
-            <img src="{{ asset('images/telu.png') }}" alt="Background"
-                class="w-50% h-200% object-cover object-center"> 
-        </div>
-
+            <div class="flex-1 bg-gray-100 text-center hidden lg:flex rounded-r-lg items-center justify-center overflow-hidden">
+                <img src="{{ asset('images/telu.png') }}" alt="Background"
+                    class="w-50% h-200% object-cover object-center">
+            </div>
 
         </div>
     </div>
