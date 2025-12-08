@@ -174,7 +174,7 @@
 
 @push('scripts')
 {{-- Script SweetAlert biarkan saja, ini sudah benar --}}
-<script>
+<script nonce="{{ $csp_nonce }}">
     // Pastikan script hanya berjalan jika ada tombol hapus (jika admin login)
     const deleteButtons = document.querySelectorAll('.delete-button');
 
