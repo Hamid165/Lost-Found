@@ -22,6 +22,27 @@
 
         {{-- Container Teks. relative z-10: Posisi relatif di atas overlay (z-index 10). px-4: Padding horizontal 1rem. --}}
         <div class="relative z-10 px-4">
+
+            {{-- ========================================================= --}}
+            {{-- LOGIKA TAMBAHAN: ALERT LOGIN DARI WHATSAPP DI SINI --}}
+            {{-- ========================================================= --}}
+            @if(session('sumber_login') == 'whatsapp')
+                <div class="max-w-2xl mx-auto mb-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg text-left">
+                    <h4 class="font-bold text-lg">✅ Login Berhasil!</h4>
+                    <p class="mb-3">Akun Anda sudah terhubung. Silakan kembali ke WhatsApp untuk melanjutkan laporan.</p>
+                    
+                    {{-- Tombol Kembali ke WA (Pastikan .env NOMOR_WA_BOT sudah diisi) --}}
+                    <a href="https://wa.me/{{ env('NOMOR_WA_BOT') }}?text=Saya%20sudah%20login" class="inline-block bg-green-600 text-white font-bold py-2 px-4 rounded hover:bg-green-700 transition duration-300">
+                        Kembali ke WhatsApp
+                    </a>
+                </div>
+
+                {{-- Hapus stempelnya agar kalau dia refresh halaman, alertnya hilang --}}
+                @php
+                    session()->forget('sumber_login');
+                @endphp
+            @endif
+            {{-- ========================================================= --}}
             
             {{-- Heading Utama. text-5xl: Font 3rem. font-extrabold: Sangat tebal (800). mb-4: Margin bawah 1rem. --}}
             <h1 class="text-5xl font-extrabold mb-4">Menghubungkan Kembali yang Terpisah</h1>

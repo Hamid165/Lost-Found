@@ -41,6 +41,15 @@ class FoundItem extends Model
     ];
 
     /**
+     * [TAMBAHAN BARU]
+     * Mengubah format kolom tanggal otomatis menjadi Object Carbon.
+     * Ini memudahkan formatting tanggal di view.
+     */
+    protected $casts = [
+        'tanggal_penemuan' => 'date',
+    ];
+
+    /**
      * Method 'booted' dijalankan otomatis saat model diinisialisasi.
      *
      * Di sini kita menggunakan Event 'creating' untuk mengisi kolom 'uuid' secara otomatis

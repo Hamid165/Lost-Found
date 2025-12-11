@@ -39,6 +39,15 @@ class LostItem extends Model
     ];
 
     /**
+     * [TAMBAHAN BARU]
+     * Mengubah format kolom tanggal otomatis menjadi Object Carbon.
+     * Ini memudahkan formatting tanggal di view (misal: $item->tanggal_kehilangan->format('d-m-Y'))
+     */
+    protected $casts = [
+        'tanggal_kehilangan' => 'date',
+    ];
+
+    /**
      * Method 'booted' dijalankan secara otomatis saat model diinisialisasi oleh Framework.
      *
      * Digunakan di sini untuk mendengarkan event 'creating' (saat data baru akan dibuat).

@@ -7,13 +7,27 @@ use App\Http\Controllers\FoundItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LostItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WhatsappWebhookController;
+use App\Http\Controllers\WaAuthController;
 use Illuminate\Support\Facades\Route;
 
 // == RUTE PUBLIK ==
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Tambahkan Route ini:
+Route::get('/masuk-dari-wa', function () {
+    // 1. Beri "Stempel" di session browser user
+    session(['sumber_login' => 'whatsapp']);
+
+    // 2. Arahkan ke halaman login biasa
+    return redirect()->route('login');
+})->name('login.from.wa');
+
 Route::get('/barang', [ItemController::class, 'index'])->name('items.index');
+
+Route::post('/webhook/whatsapp', [WhatsappWebhookController::class, 'handle'])->name('wa.webhook');
 
 // == RUTE ADMIN (Wajib Login & Role Admin) ==
 Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
@@ -23,6 +37,7 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
 
         // Rute Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        
         // 2. Tambahkan semua route untuk manajemen laporan di sini
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
@@ -48,6 +63,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route('items.index');
     })->name('dashboard');
+    // Ini link yang diklik user dari WA
+    Route::get('/connect-wa', [WaAuthController::class, 'connect'])->name('wa.auth.link');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -60,6 +77,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('found-items', FoundItemController::class)->except(['index', 'show']);
     Route::get('/barang/hilang/{lostItem:uuid}', [ItemController::class, 'showLost'])->name('items.show.lost');
     Route::get('/barang/ditemukan/{foundItem:uuid}', [ItemController::class, 'showFound'])->name('items.show.found');
+
+    // Rute untuk Integrasi WhatsApp
+    Route::get('/connect-wa', [\App\Http\Controllers\WaAuthController::class, 'connect'])
+        ->name('wa.auth.link');
 });
 
 // == RUTE AUTENTIKASI GOOGLE ==

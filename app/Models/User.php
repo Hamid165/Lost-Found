@@ -38,6 +38,7 @@ class User extends Authenticatable
         'google_id',        // ID dari Google (jika login via Google)
         'profile_photo_path', // Path penyimpanan foto profil
         'role',             // Peran user (misal: 'user' atau 'admin')
+        'no_telp',          // Nomor telepon user
     ];
 
     /**
