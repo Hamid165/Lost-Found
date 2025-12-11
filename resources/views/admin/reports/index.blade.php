@@ -1,228 +1,299 @@
 @extends('layouts.app')
-{{-- Layout Utama --}}
+{{-- Layout Utama. Menggunakan template 'layouts.app'. --}}
+
+@section('title', 'Barang')
+{{-- Set Judul Halaman Browser --}}
 
 @section('content')
-{{-- Konten Utama --}}
+{{-- Bagian Konten Utama --}}
 
-{{-- Wrapper Utama --}}
-<div class="container mx-auto pt-24 px-4 min-h-screen">
-    {{-- Card Container --}}
-    <div class="bg-white rounded-lg shadow-md p-8">
-        
-        {{-- Header Section (Centered) --}}
-        <div class="text-center mb-8">
-            <h1 class="text-5xl font-bold text-gray-800 mb-2">Manajemen Laporan</h1>
-            <p class="text-gray-600">Cari barang yang hilang atau ditemukan di bawah ini.</p>
+{{-- Container Utama. 
+     container: Lebar responsif. 
+     mx-auto: Rata tengah. 
+     pt-24: Padding atas 6rem (karena navbar fixed). 
+     px-4: Padding horizontal 1rem. 
+--}}
+<div class="container mx-auto pt-24 px-4">
+    
+    {{-- Notifikasi Sukses --}}
+    @if (session('success'))
+        {{-- Alert Box.
+             bg-green-100: Latar hijau muda.
+             border border-green-400: Garis tepi hijau.
+             text-green-700: Teks hijau tua.
+             px-4 py-3: Padding dalam.
+             rounded: Sudut membulat kecil.
+             relative: Posisi relatif.
+             mb-6: Margin bawah 1.5rem.
+             role="alert": Atribut aksesibilitas.
+        --}}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+            {{-- Pesan. block sm:inline: Block di mobile, inline di tablet ke atas. --}}
+            <span class="block sm:inline">{{ session('success') }}</span>
         </div>
+    @endif
 
-        {{-- Search Bar Section --}}
-        <div class="mb-10 flex justify-center">
-            <form action="{{ route('admin.reports.index') }}" method="GET" class="w-full max-w-2xl relative">
-                <input type="text" name="search" value="{{ request('search') }}" 
-                       placeholder="Cari nama barang, deskripsi, atau lokasi..." 
-                       class="w-full pl-6 pr-24 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300">
-                <button type="submit" 
-                        class="absolute right-2 top-2 bottom-2 px-8 bg-red-800 text-white font-bold rounded-full hover:bg-red-900 transition duration-300 flex items-center justify-center">
+    {{-- Header & Pencarian --}}
+    {{-- text-center: Rata tengah. mb-12: Margin bawah 3rem. --}}
+    <div class="text-center mb-12">
+        {{-- Judul Halaman.
+             text-4xl: Font size 2.25rem (mobile).
+             md:text-5xl: Font size 3rem (tablet ke atas).
+             font-extrabold: Sangat tebal (800).
+             text-gray-800: Abu gelap.
+        --}}
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">Daftar Laporan Barang Ditemukan dan Kehilangan</h1>
+        
+        {{-- Deskripsi Sub-judul.
+             mt-4: Margin atas 1rem.
+             text-lg: Font agak besar (1.125rem).
+             text-gray-600: Abu sedang.
+             max-w-2xl: Lebar maks 42rem.
+             mx-auto: Rata tengah.
+        --}}
+        <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Cari barang yang hilang atau ditemukan di bawah ini.</p>
+        
+        {{-- Form Search.
+             action: Route index items.
+             method: GET.
+             mt-8: Margin atas 2rem.
+             max-w-2xl mx-auto: Lebar maks & rata tengah.
+        --}}
+        <form action="{{ route('items.index') }}" method="GET" class="mt-8 max-w-2xl mx-auto">
+            {{-- Wrapper Input Relatif (untuk posisi tombol search). flex items-center: Flexbox rata vertikal. --}}
+            <div class="relative flex items-center">
+                {{-- Input Field.
+                     block w-full: Lebar penuh.
+                     rounded-full: Bentuk kapsul penuh.
+                     border-gray-300: Border abu.
+                     shadow-sm: Bayangan tipis.
+                     py-3: Padding vertikal 0.75rem.
+                     pl-6: Padding kiri 1.5rem.
+                     pr-32: Padding kanan 8rem (memberi ruang untuk tombol cari).
+                     text-base: Font standar.
+                     focus:border-red-500: Border merah saat fokus.
+                     focus:ring-red-500: Ring focus merah.
+                --}}
+                <input type="text" name="search" placeholder="Cari nama barang, deskripsi, atau lokasi..."
+                       class="block w-full rounded-full border-gray-300 shadow-sm py-3 pl-6 pr-32 text-base focus:border-red-500 focus:ring-red-500"
+                       value="{{ request('search') }}">
+                
+                {{-- Tombol Cari.
+                     absolute right-2 top-1/2 -translate-y-1/2: Posisi absolut di kanan, tengah vertikal.
+                     inline-flex items-center: Flex inline.
+                     rounded-full: Kapsul.
+                     bg-red-800: Merah tua.
+                     px-6 py-2: Padding tombol.
+                     text-sm font-semibold: Font kecil tebal.
+                     text-white: Teks putih.
+                     hover:bg-red-700: Hover merah agak terang.
+                --}}
+                <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center rounded-full bg-red-800 px-6 py-2 text-sm font-semibold text-white hover:bg-red-700">
                     Cari
                 </button>
-            </form>
-        </div>
-
-        {{-- Notifikasi Sukses --}}
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6 text-center" role="alert">
-                <span class="block sm:inline">{{ session('success') }}</span>
             </div>
-        @endif
+        </form>
+    </div>
 
-        {{-- ======================================================= --}}
-        {{-- TABEL 1: DAFTAR BARANG DITEMUKAN (Found Items)          --}}
-        {{-- (Dipindahkan ke atas sesuai request user)               --}}
-        {{-- ======================================================= --}}
-        <div class="mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4 px-1 border-l-4 border-red-800 pl-3">Daftar Barang Ditemukan</h2>
-            <div class="overflow-x-auto rounded-lg shadow-sm">
-                <table class="min-w-full bg-white border border-gray-200">
-                    <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
-                        <tr>
-                            <th class="py-4 px-6 text-left">Nama Barang</th>
-                            <th class="py-4 px-6 text-left">Deskripsi</th>
-                            <th class="py-4 px-6 text-center">Lokasi Penemuan</th>
-                            <th class="py-4 px-6 text-center">Tanggal Penemuan</th>
-                            <th class="py-4 px-6 text-center">Status</th>
-                            <th class="py-4 px-6 text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @forelse ($foundItems as $item)
-                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition duration-150">
-                                <td class="py-3 px-6 text-left font-medium text-gray-800">
-                                    {{ $item->nama_barang }}
-                                </td>
-                                <td class="py-3 px-6 text-left max-w-xs truncate" title="{{ $item->deskripsi }}">
-                                    {{ Str::limit($item->deskripsi, 50) }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    {{ $item->lokasi_penemuan }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    {{ \Carbon\Carbon::parse($item->tanggal_penemuan)->format('d M Y') }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    @if($item->status == 'Belum Diambil')
-                                        <span class="bg-yellow-200 text-yellow-800 py-1 px-3 rounded-full text-xs font-bold">{{ $item->status }}</span>
-                                    @elseif($item->status == 'Diamankan' || $item->status == 'Sudah Diamankan')
-                                        <span class="bg-blue-200 text-blue-800 py-1 px-3 rounded-full text-xs font-bold">{{ $item->status }}</span>
-                                    @else
-                                        <span class="bg-green-200 text-green-800 py-1 px-3 rounded-full text-xs font-bold">{{ $item->status }}</span>
-                                    @endif
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center space-x-3">
-                                        {{-- Lihat --}}
-                                        <a href="{{ route('admin.reports.found.show', $item->uuid) }}" class="transform hover:text-blue-500 hover:scale-110 transition duration-150" title="Lihat Detail">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                        </a>
-                                        {{-- Edit --}}
-                                        <a href="{{ route('admin.reports.found.edit', $item->uuid) }}" class="transform hover:text-yellow-500 hover:scale-110 transition duration-150" title="Edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" />
-                                            </svg>
-                                        </a>
-                                        {{-- Hapus --}}
-                                        <form action="{{ route('admin.reports.found.destroy', $item->uuid) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="delete-button transform hover:text-red-600 hover:scale-110 transition duration-150" title="Hapus">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </form>
+    {{-- ===================================================================================== --}}
+    {{-- TABEL BARANG DITEMUKAN --}}
+    {{-- ===================================================================================== --}}
+    
+    {{-- Card Container Tabel. bg-white: Putih. rounded-lg: Sudut membulat. shadow-md: Bayangan sedang. p-8: Padding 2rem. mb-10: Margin bawah 2.5rem. --}}
+    <div class="bg-white rounded-lg shadow-md p-8 mb-10">
+        {{-- Judul Tabel. text-3xl font-bold text-gray-800 mb-6: Besar, tebal, abu, margin bawah. --}}
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Barang Ditemukan</h1>
+        
+        {{-- Wrapper Tabel Responsive. overflow-x-auto: Scroll horizontal jika tabel terlalu lebar di mobile. --}}
+        <div class="overflow-x-auto">
+            {{-- Table Element. min-w-full: Lebar minimal 100%. bg-white: Background putih. --}}
+            <table class="min-w-full bg-white">
+                {{-- Table Head. bg-red-800: Background merah tua. text-white: Teks putih. uppercase: Huruf kapital. text-sm leading-normal: Font kecil. --}}
+                {{-- UPDATE RESPONSIF: px-6 diubah jadi px-2 sm:px-6 --}}
+                <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
+                    <tr>
+                        <th class="py-3 px-2 sm:px-6 text-left">Nama Barang</th>
+                        <th class="py-3 px-2 sm:px-6 text-left">Deskripsi</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Lokasi Penemuan</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Tanggal Penemuan</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Status</th>
+                        @auth
+                            <th class="py-3 px-2 sm:px-6 text-center">Aksi</th>
+                        @endauth
+                    </tr>
+                </thead>
+                {{-- Table Body. text-gray-600: Teks abu-abu. text-sm font-light: Font kecil tipis. --}}
+                <tbody class="text-gray-600 text-sm font-light">
+                    @forelse ($foundItems as $item)
+                        {{-- Baris Tabel. border-b border-gray-200: Garis pemisah bawah. hover:bg-gray-100: Highlight saat hover. --}}
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            {{-- Kolom Nama. whitespace-nowrap: Teks tidak wrap ke bawah. --}}
+                            {{-- UPDATE RESPONSIF: px-6 diubah jadi px-2 sm:px-6 --}}
+                            <td class="py-3 px-2 sm:px-6 text-left whitespace-nowrap">{{ $item->nama_barang }}</td>
+                            {{-- Kolom Deskripsi. Limit karakter untuk tampilan rapi. --}}
+                            <td class="py-3 px-2 sm:px-6 text-left">{{ Str::limit($item->deskripsi, 40) }}</td>
+                            <td class="py-3 px-2 sm:px-6 text-center">{{ $item->lokasi_penemuan }}</td>
+                            {{-- UPDATE: whitespace-nowrap pada tanggal agar tidak turun baris --}}
+                            <td class="py-3 px-2 sm:px-6 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal_penemuan)->format('d M Y') }}</td>
+                            {{-- Kolom Status Badge --}}
+                            <td class="py-3 px-2 sm:px-6 text-center">
+                                @if($item->status == 'Belum Diambil')
+                                    {{-- Badge Kuning --}}
+                                    {{-- UPDATE RESPONSIF: Text lebih kecil di HP (text-[10px]) dan padding (px-2) --}}
+                                    <span class="bg-yellow-200 text-yellow-700 py-1 px-2 sm:px-3 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap">{{ $item->status }}</span>
+                                @else
+                                    {{-- Badge Hijau --}}
+                                    <span class="bg-green-200 text-green-700 py-1 px-2 sm:px-3 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap">{{ $item->status }}</span>
+                                @endif
+                            </td>
+                            @auth
+                                {{-- Kolom Aksi --}}
+                                <td class="py-3 px-2 sm:px-6 text-center">
+                                    <div class="flex item-center justify-center">
+                                        @if(auth()->user()->isAdmin())
+                                            {{-- AKSI ADMIN (Edit/Delete) --}}
+                                            {{-- Tombol Show. transform hover:scale-110: Efek zoom saat hover. --}}
+                                            <a href="{{ route('admin.reports.found.show', ['foundItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                            {{-- Tombol Edit --}}
+                                            <a href="{{ route('admin.reports.found.edit', ['foundItem' => $item->uuid]) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
+                                            </a>
+                                            {{-- Form Delete --}}
+                                            <form action="{{ route('admin.reports.found.destroy', ['foundItem' => $item->uuid]) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                </button>
+                                            </form>
+                                        @else
+                                            {{-- AKSI USER (Hanya Show) --}}
+                                            <a href="{{ route('items.show.found', ['foundItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-8 bg-gray-50 text-gray-500 italic">
-                                    Belum ada data barang ditemukan.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-4">
-                {{ $foundItems->links('vendor.pagination.tailwind') }}
-            </div>
-        </div>
-
-        {{-- ======================================================= --}}
-        {{-- TABEL 2: DAFTAR BARANG HILANG (Lost Items)              --}}
-        {{-- ======================================================= --}}
-        <div>
-            <h2 class="text-3xl font-bold text-gray-800 mb-4 px-1 border-l-4 border-red-800 pl-3">Daftar Barang Hilang</h2>
-            <div class="overflow-x-auto rounded-lg shadow-sm">
-                <table class="min-w-full bg-white border border-gray-200">
-                    <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
-                        <tr>
-                            <th class="py-4 px-6 text-left">Nama Barang</th>
-                            <th class="py-4 px-6 text-left">Deskripsi</th>
-                            <th class="py-4 px-6 text-center">Lokasi Terakhir</th>
-                            <th class="py-4 px-6 text-center">Tanggal Kehilangan</th>
-                            <th class="py-4 px-6 text-center">Status</th>
-                            <th class="py-4 px-6 text-center">Aksi</th>
+                            @endauth
                         </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @forelse ($lostItems as $item)
-                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition duration-150">
-                                <td class="py-3 px-6 text-left font-medium text-gray-800">
-                                    {{ $item->nama_barang }}
-                                </td>
-                                <td class="py-3 px-6 text-left max-w-xs truncate" title="{{ $item->deskripsi }}">
-                                    {{ Str::limit($item->deskripsi, 50) }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    {{ $item->lokasi_terakhir }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    {{ \Carbon\Carbon::parse($item->tanggal_kehilangan)->format('d M Y') }}
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    @if($item->status == 'Masih Hilang')
-                                        <span class="bg-red-100 text-red-800 py-1 px-3 rounded-full text-xs font-bold">{{ $item->status }}</span>
-                                    @else
-                                        <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full text-xs font-bold">{{ $item->status }}</span>
-                                    @endif
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex item-center justify-center space-x-3">
-                                        {{-- Lihat --}}
-                                        <a href="{{ route('admin.reports.lost.show', $item->uuid) }}" class="transform hover:text-blue-500 hover:scale-110 transition duration-150" title="Lihat Detail">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                            </svg>
-                                        </a>
-                                        {{-- Edit --}}
-                                        <a href="{{ route('admin.reports.lost.edit', $item->uuid) }}" class="transform hover:text-yellow-500 hover:scale-110 transition duration-150" title="Edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" />
-                                            </svg>
-                                        </a>
-                                        {{-- Hapus --}}
-                                        <form action="{{ route('admin.reports.lost.destroy', $item->uuid) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="delete-button transform hover:text-red-600 hover:scale-110 transition duration-150" title="Hapus">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </form>
+                    @empty
+                        {{-- Row Kosong --}}
+                        <td colspan="{{ auth()->check() ? '6' : '5' }}" class="text-center py-4">Belum ada barang temuan yang dilaporkan.</td>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        {{-- Pagination --}}
+        <div class="mt-6">{{ $foundItems->appends(request()->query())->links('vendor.pagination.tailwind-white') }}</div>
+    </div>
+
+    {{-- ===================================================================================== --}}
+    {{-- TABEL BARANG HILANG --}}
+    {{-- ===================================================================================== --}}
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Daftar Barang Hilang</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+                {{-- UPDATE RESPONSIF: px-6 diubah jadi px-2 sm:px-6 --}}
+                <thead class="bg-red-800 text-white uppercase text-sm leading-normal">
+                    <tr>
+                        <th class="py-3 px-2 sm:px-6 text-left">Nama Barang</th>
+                        <th class="py-3 px-2 sm:px-6 text-left">Deskripsi</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Lokasi Terakhir</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Tanggal Kehilangan</th>
+                        <th class="py-3 px-2 sm:px-6 text-center">Status</th>
+                        @auth
+                            <th class="py-3 px-2 sm:px-6 text-center">Aksi</th>
+                        @endauth
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    @forelse ($lostItems as $item)
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            {{-- UPDATE RESPONSIF: px-6 diubah jadi px-2 sm:px-6 --}}
+                            <td class="py-3 px-2 sm:px-6 text-left whitespace-nowrap">{{ $item->nama_barang }}</td>
+                            <td class="py-3 px-2 sm:px-6 text-left">{{ Str::limit($item->deskripsi, 40) }}</td>
+                            <td class="py-3 px-2 sm:px-6 text-center">{{ $item->lokasi_terakhir }}</td>
+                            {{-- UPDATE: whitespace-nowrap --}}
+                            <td class="py-3 px-2 sm:px-6 text-center whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal_kehilangan)->format('d M Y') }}</td>
+                            
+                            <td class="py-3 px-2 sm:px-6 text-center">
+                                @if($item->status == 'Masih Hilang')
+                                    {{-- Badge Merah --}}
+                                    {{-- UPDATE RESPONSIF: Text lebih kecil di HP (text-[10px]) dan padding (px-2) --}}
+                                    <span class="bg-red-200 text-red-700 py-1 px-2 sm:px-3 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap">{{ $item->status }}</span>
+                                @else
+                                    {{-- Badge Hijau --}}
+                                    <span class="bg-green-200 text-green-700 py-1 px-2 sm:px-3 rounded-full text-[10px] sm:text-xs font-semibold whitespace-nowrap">{{ $item->status }}</span>
+                                @endif
+                            </td>
+
+                            @auth
+                                <td class="py-3 px-2 sm:px-6 text-center">
+                                    <div class="flex item-center justify-center">
+                                        @if(auth()->user()->isAdmin())
+                                            {{-- AKSI ADMIN --}}
+                                            <a href="{{ route('admin.reports.lost.show', ['lostItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                            <a href="{{ route('admin.reports.lost.edit', ['lostItem' => $item->uuid]) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z" /></svg>
+                                            </a>
+                                            <form action="{{ route('admin.reports.lost.destroy', ['lostItem' => $item->uuid]) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="delete-button w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                </button>
+                                            </form>
+                                        @else
+                                            {{-- AKSI USER --}}
+                                            <a href="{{ route('items.show.lost', ['lostItem' => $item->uuid]) }}" class="w-5 mr-2 transform hover:text-blue-500 hover:scale-110" title="Detail">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-8 bg-gray-50 text-gray-500 italic">
-                                    Belum ada data barang hilang.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-4">
-                {{ $lostItems->links('vendor.pagination.tailwind') }}
-            </div>
+                            @endauth
+                        </tr>
+                    @empty
+                        <td colspan="{{ auth()->check() ? '6' : '5' }}" class="text-center py-4">Belum ada barang hilang yang dilaporkan.</td>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+        {{-- Pagination --}}
+        <div class="mt-6">{{ $lostItems->appends(request()->query())->links('vendor.pagination.tailwind-white') }}</div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
-{{-- Script SweetAlert untuk Hapus --}}
+{{-- Script SweetAlert untuk konfirmasi hapus --}}
 <script @if(isset($csp_nonce)) nonce="{{ $csp_nonce }}" @endif>
+    // Seleksi semua tombol dengan class delete-button
     const deleteButtons = document.querySelectorAll('.delete-button');
+
     if (deleteButtons.length > 0) {
         deleteButtons.forEach(button => {
             button.addEventListener('click', function (event) {
-                event.preventDefault();
-                const form = this.closest('form');
+                event.preventDefault(); // Cegah submit langsung
+                const form = this.closest('form'); // Ambil form terdekat
+                
+                // Tampilkan SweetAlert
                 Swal.fire({
-                    title: 'Hapus Laporan?',
+                    title: 'Apakah Anda yakin?',
                     text: "Data yang dihapus tidak dapat dikembalikan!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#991b1b', // Red-800
-                    cancelButtonColor: '#6b7280', // Gray-500
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
                     confirmButtonText: 'Ya, hapus!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
+                    // Jika user klik Ya
                     if (result.isConfirmed) {
                         form.submit();
                     }
@@ -268,4 +339,3 @@
        - Skala ukuran Tailwind: 0, 1, 2, 4, 8, 12, 16, 20, dll.
 --}}
 {{-- ========================================================================================= --}}
-@endsection
