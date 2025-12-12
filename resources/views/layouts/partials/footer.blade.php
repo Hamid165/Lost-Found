@@ -34,9 +34,9 @@
                hover:bg-red-700: Background jadi merah 700 saat hover. 
                transition: Efek transisi halus. 
           --}}
-                    <a href="#"
+                    <a href="https://wa.link/b7abxy"
                         class="border border-red-700 rounded-lg px-4 py-2 text-sm text-white hover:bg-red-700 transition">
-                        +62 812 3456 7890
+                        +6281229404736
                     </a>
 
                     {{-- Item Email. (Class sama dengan item telepon di atas) --}}
@@ -72,13 +72,15 @@
                 <div class="flex justify-center md:justify-start gap-5">
                     <!-- Facebook -->
                     {{-- Link. text-white: Default putih. hover:text-gray-300: Abu terang saat hover. --}}
-                    <a href="https://www.youtube.com/channel/UCKCYFPqABGctXfBX8dQWfbA" class="text-white hover:text-gray-300" target="_blank" >
-    <div class="bg-white rounded-full p-2 flex items-center justify-center">
-        <svg class="w-5 h-5 text-red-800" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23.5 6.2s-.2-1.7-.8-2.4c-.8-.9-1.7-.9-2.1-1C17.3 2.5 12 2.5 12 2.5h-.1s-5.3 0-8.6.3c-.4.1-1.3.1-2.1 1-.6.7-.8 2.4-.8 2.4S0 8.1 0 10v1.9c0 1.9.2 3.8.2 3.8s.2 1.7.8 2.4c.8.9 1.9.9 2.4 1 1.8.2 7.6.3 7.6.3s5.3 0 8.6-.3c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.4.8-2.4s.2-1.9.2-3.8V10c0-1.9-.2-3.8-.2-3.8zM9.7 14.3V8.7l5.7 2.8-5.7 2.8z"/>
-        </svg>
-    </div>
-</a>
+                    <a href="https://www.youtube.com/channel/UCKCYFPqABGctXfBX8dQWfbA"
+                        class="text-white hover:text-gray-300" target="_blank">
+                        <div class="bg-white rounded-full p-2 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-800" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M23.5 6.2s-.2-1.7-.8-2.4c-.8-.9-1.7-.9-2.1-1C17.3 2.5 12 2.5 12 2.5h-.1s-5.3 0-8.6.3c-.4.1-1.3.1-2.1 1-.6.7-.8 2.4-.8 2.4S0 8.1 0 10v1.9c0 1.9.2 3.8.2 3.8s.2 1.7.8 2.4c.8.9 1.9.9 2.4 1 1.8.2 7.6.3 7.6.3s5.3 0 8.6-.3c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.4.8-2.4s.2-1.9.2-3.8V10c0-1.9-.2-3.8-.2-3.8zM9.7 14.3V8.7l5.7 2.8-5.7 2.8z" />
+                            </svg>
+                        </div>
+                    </a>
 
 
                     <!-- Instagram -->
@@ -93,7 +95,8 @@
                     </a>
 
                     <!-- TikTok -->
-                    <a href="https://www.tiktok.com/@telkomuniversity_pwt/" class="text-white hover:text-gray-300" target="_blank">
+                    <a href="https://www.tiktok.com/@telkomuniversity_pwt/" class="text-white hover:text-gray-300"
+                        target="_blank">
                         <div class="bg-white rounded-full p-2 flex items-center justify-center">
                             <svg class="w-5 h-5 text-red-800" fill="currentColor" viewBox="0 0 24 24">
                                 <path
