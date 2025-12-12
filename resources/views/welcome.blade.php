@@ -18,9 +18,8 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-red-900/60 to-black/90"></div>
         </div>
 
-        {{-- EFEK ASAP (FOG ANIMATION) - MENGGUNAKAN CSS MURNI (Fix Error CSP Image) --}}
+        {{-- EFEK ASAP (FOG ANIMATION) - MENGGUNAKAN CSS MURNI --}}
         <div class="absolute inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
-            {{-- Mengganti gambar eksternal dengan elemen CSS bergerak --}}
             <div
                 class="fog-layer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent w-[200%] animate-fog">
             </div>
@@ -73,7 +72,7 @@
             {{-- Tombol Glass & Glow --}}
             <div class="flex flex-col sm:flex-row gap-6 w-full justify-center animate-fadeIn delay-200">
 
-                {{-- Tombol Utama (Hanya Satu Saja Sesuai Request) --}}
+                {{-- Tombol Utama --}}
                 <a href="{{ route('items.index') }}"
                     class="group relative px-12 py-5 bg-red-600/80 backdrop-blur-md rounded-full font-bold text-xl text-white shadow-[0_0_20px_rgba(220,38,38,0.5)] overflow-hidden transition-all hover:bg-red-600 hover:scale-105 hover:shadow-[0_0_40px_rgba(220,38,38,0.8)] border border-red-500/50">
                     {{-- Efek Kilau Lewat --}}
@@ -114,7 +113,6 @@
 
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-20 max-w-3xl mx-auto">
-                {{-- REVISI: Font Size Diperbesar (text-lg) --}}
                 <h2 class="text-red-600 font-bold tracking-widest uppercase text-lg mb-3">Kenapa Memilih Kami?</h2>
                 <h3 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Solusi Terbaik untuk <br> <span
                         class="relative inline-block">Barang Hilangmu <div
@@ -202,9 +200,8 @@
 
 
     {{-- ===================================================================== --}}
-    {{-- STATS SECTION (REVISI: HAPUS TEKS, TAMBAH LOGO) --}}
+    {{-- STATS SECTION --}}
     {{-- ===================================================================== --}}
-    {{-- Fix CSP: Ganti background image eksternal dengan CSS Pattern --}}
     <section class="py-24 bg-red-900 text-white relative">
         {{-- Pola Background CSS (Aman CSP) --}}
         <div class="absolute inset-0 opacity-10"
@@ -224,7 +221,6 @@
                 <div
                     class="group bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-[2.5rem] text-center transform transition hover:scale-105 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,255,255,0.1)] flex flex-col items-center">
 
-                    {{-- REVISI: Tambah Logo/Icon --}}
                     <div
                         class="w-20 h-20 mb-6 bg-yellow-500/20 rounded-full flex items-center justify-center group-hover:bg-yellow-500/30 transition-all">
                         <svg class="w-10 h-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,14 +233,12 @@
                         class="text-7xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-500 drop-shadow-sm">
                         {{ \App\Models\FoundItem::count() }}</div>
                     <div class="text-2xl font-bold tracking-wide mb-2">Barang Ditemukan</div>
-                    {{-- REVISI: Teks "Siap Diambil" dihapus --}}
                 </div>
 
                 {{-- Stat 2 (Laporan Kehilangan) --}}
                 <div
                     class="group bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-[2.5rem] text-center transform transition hover:scale-105 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,255,255,0.1)] flex flex-col items-center">
 
-                    {{-- REVISI: Tambah Logo/Icon --}}
                     <div
                         class="w-20 h-20 mb-6 bg-red-500/20 rounded-full flex items-center justify-center group-hover:bg-red-500/30 transition-all">
                         <svg class="w-10 h-10 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -257,7 +251,6 @@
                         class="text-7xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-b from-red-300 to-red-500 drop-shadow-sm">
                         {{ \App\Models\LostItem::count() }}</div>
                     <div class="text-2xl font-bold tracking-wide mb-2">Laporan Kehilangan</div>
-                    {{-- REVISI: Teks "Sedang Dicari" dihapus --}}
                 </div>
             </div>
         </div>
@@ -270,7 +263,6 @@
     <section class="bg-white py-24">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-16">
-                {{-- REVISI: Font Size Diperbesar (text-xl) --}}
                 <span class="text-red-600 font-bold tracking-widest uppercase text-xl">Pusat Bantuan</span>
                 <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-2">Pertanyaan Umum</h2>
             </div>
@@ -304,7 +296,7 @@
     </section>
 
     {{-- Script untuk FAQ --}}
-    {{-- FIX: Menambahkan nonce agar script diizinkan oleh CSP --}}
+    {{-- Menggunakan Nonce yang sudah ada agar aman dari CSP --}}
     <script nonce="{{ $csp_nonce ?? '' }}">
         document.querySelectorAll('.faq-toggle').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -331,46 +323,16 @@
             });
         });
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     {{-- ========================================================================================= --}}
-    {{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
-    {{-- ========================================================================================= --}}
-    {{--
-    1. MENGUBAH WARNA (Background & Text)
-       Format: 'bg-{warna}-{intensitas}' atau 'text-{warna}-{intensitas}'
-       Contoh:
-       - 'bg-red-800' (Merah Tua)    -> Ubah ke 'bg-blue-600' (Biru Sedang) atau 'bg-green-500' (Hijau)
-       - 'text-white' (Putih)         -> Ubah ke 'text-black' (Hitam) atau 'text-gray-200' (Abu Terang)
-
-       CATATAN PENTING:
-       - Jika Anda mengubah 'bg-white' menjadi 'blue', itu TIDAK AKAN BERJALAN.
-       - Anda harus spesifik: 'bg-blue-500' (standar).
-       - Angka intensitas:
-         50 (paling terang), 100, 200, 300, 400, 500 (standar), 600, 700, 800, 900 (paling gelap).
-       - Jika angka tidak cocok (misal 'bg-blue-333'), class tersebut tidak akan dikenali dan warnanya hilang.
-
-    2. MENGUBAH UKURAN TEXT
-       Format: 'text-{ukuran}'
-       Pilihan:
-       - 'text-xs'   (Sangat Kecil)
-       - 'text-sm'   (Kecil)
-       - 'text-base' (Normal/Standar)
-       - 'text-lg'   (Besar)
-       - 'text-xl'   (Lebih Besar)
-       - 'text-2xl' s/d 'text-9xl' (Sangat Besar untuk Judul)
-
-    3. MENGUBAH JARAK (Margin & Padding)
-       - Margin (Jarak Luar): 'm-{ukuran}' (semua sisi), 'my-{ukuran}' (atas-bawah), 'mx-{ukuran}' (kiri-kanan)
-       - Padding (Jarak Dalam): 'p-{ukuran}' (sama seperti margin formatnya)
-       Contoh:
-       - 'mb-4' (Margin Bawah level 4) -> Ubah ke 'mb-8' (lebih jauh) atau 'mb-2' (lebih dekat).
-       - Skala ukuran Tailwind: 0, 1, 2, 4, 8, 12, 16, 20, dll.
---}}
+    {{-- PENTING: SCRIPT TAILWIND CDN DIHAPUS DARI SINI UNTUK MENGHINDARI ERROR CSP                --}}
+    {{-- Pastikan styles sudah di-load di 'layouts/app.blade.php' menggunakan @vite atau CDN Head  --}}
     {{-- ========================================================================================= --}}
 
-    {{-- Tambahan Animasi Tailwind Custom --}}
+    {{-- Tambahan Animasi Tailwind Custom (Menggunakan CSS Murni di dalam tag style) --}}
+    {{-- Tag style ini aman selama tidak ada aturan 'style-src' yang terlalu ketat --}}
     <style>
-        /* Animasi Asap CSS Murni (Tanpa Gambar Eksternal - Aman CSP) */
+        /* Animasi Asap CSS Murni */
         .fog-layer {
             mask-image: linear-gradient(to bottom, transparent, black, transparent);
             -webkit-mask-image: linear-gradient(to bottom, transparent, black, transparent);
@@ -393,7 +355,6 @@
         }
 
         .animate-fog {
-            /* Membuat efek bergerak menyamping */
             animation: fog 20s linear infinite;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 25%, transparent 50%, rgba(255, 255, 255, 0.2) 75%, transparent 100%);
             background-size: 200% 100%;
