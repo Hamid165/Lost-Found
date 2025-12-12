@@ -139,7 +139,7 @@ class ReportController extends Controller
         return view('admin.reports.edit', [
             'item' => $foundItem,
             'updateRoute' => route('admin.reports.found.update', $foundItem),
-            'statusOptions' => ['Belum Diambil', 'Sudah Diambil', 'Sudah Diamankan'],
+            'statusOptions' => ['Belum Diambil', 'Sudah Diambil', 'Diamankan'],
             'locationField' => 'lokasi_penemuan',
             'dateField' => 'tanggal_penemuan',
             'pageTitle' => 'Edit Barang Ditemukan',
