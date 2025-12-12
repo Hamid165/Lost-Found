@@ -22,7 +22,7 @@ class User extends Authenticatable
     // HasFactory: Untuk membuat fake data saat testing/seeding.
     // Notifiable: Agar user bisa menerima notifikasi (via email/dll).
     // MustVerifyEmailTrait: Trait pelengkap logika verifikasi email.
-    
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, MustVerifyEmailTrait;
 

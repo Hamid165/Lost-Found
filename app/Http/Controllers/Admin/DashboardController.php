@@ -53,7 +53,7 @@ class DashboardController extends Controller
             ->whereYear('created_at', $selectedYear)
             ->count();
 
-        $foundItemsSecured = FoundItem::where('status', 'Sudah Diamankan')
+        $foundItemsSecured = FoundItem::where('status', 'Diamankan')
             ->whereMonth('created_at', $selectedMonth)
             ->whereYear('created_at', $selectedYear)
             ->count();
