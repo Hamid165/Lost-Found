@@ -78,9 +78,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/barang/hilang/{lostItem:uuid}', [ItemController::class, 'showLost'])->name('items.show.lost');
     Route::get('/barang/ditemukan/{foundItem:uuid}', [ItemController::class, 'showFound'])->name('items.show.found');
 
-    // Rute untuk Integrasi WhatsApp
-    Route::get('/connect-wa', [\App\Http\Controllers\WaAuthController::class, 'connect'])
-        ->name('wa.auth.link');
 });
 
 // == RUTE AUTENTIKASI GOOGLE ==
