@@ -81,7 +81,7 @@
                                 </div>
 
                                 {{-- Area Canvas Grafik Garis. relative h-96: Tinggi saya perbesar sedikit agar seimbang --}}
-                                <div class="relative h-96 bg-white rounded-lg shadow-sm p-4">
+                                <div class="relative h-[500px] bg-white rounded-lg shadow-sm p-4">
                                     <canvas id="reportsChart"></canvas>
                                 </div>
                             </div>
