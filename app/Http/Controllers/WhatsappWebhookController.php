@@ -29,16 +29,17 @@ class WhatsappWebhookController extends Controller
             ->first();
 
         // --- SKENARIO 1: USER BELUM TERDAFTAR ---
+        // --- SKENARIO 1: USER BELUM TERDAFTAR ---
         if (!$user) {
             $this->balasPesan(
                 $sender,
                 "Halo! Nomor WhatsApp Anda belum terdaftar di sistem kami.\n\n" .
                     "Mohon Login atau Registrasi terlebih dahulu lewat link ini:\n" .
-                    route('login.from.wa') . "\n\n" .
-                    "👉 *PENTING:* Gunakan Nomor HP yang SAMA dengan WhatsApp ini.\n" .
-                    "Setelah login berhasil, silakan kembali ke sini dan ketik *Menu*."
+                    // PERBAIKAN DI SINI: Kita titipkan nomor HP ($sender) ke dalam link
+                    route('login.from.wa', ['phone' => $sender]) . "\n\n" .
+                    "👉 *PENTING:* Setelah klik link dan berhasil login, kembali ke sini dan ketik *Menu*."
             );
-            return response('OK', 200); // Stop proses di sini
+            return response('OK', 200);
         }
 
         // --- SKENARIO 2: USER SUDAH TERDAFTAR ---
