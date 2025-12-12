@@ -35,7 +35,7 @@
                transition: Efek transisi halus. 
           --}}
                     <a href="https://wa.link/b7abxy"
-                        class="border border-red-700 rounded-lg px-4 py-2 text-sm text-white hover:bg-red-700 transition">
+                        class="border border-red-700 rounded-lg px-4 py-2 text-sm text-white hover:bg-red-700 transition" target="_blank">
                         +6281229404736
                     </a>
 
