@@ -17,13 +17,10 @@ Route::get('/', function () {
 });
 
 // Tambahkan Route ini:
-Route::get('/masuk-dari-wa', function () {
-    // 1. Beri "Stempel" di session browser user
-    session(['sumber_login' => 'whatsapp']);
-
-    // 2. Arahkan ke halaman login biasa
-    return redirect()->route('login');
-})->name('login.from.wa');
+// Ganti dengan ini di routes/web.php:
+Route::get('/masuk-dari-wa', [WaAuthController::class, 'connect'])
+    ->middleware('auth')
+    ->name('login.from.wa');
 
 Route::get('/barang', [ItemController::class, 'index'])->name('items.index');
 
@@ -37,7 +34,7 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
 
         // Rute Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         // 2. Tambahkan semua route untuk manajemen laporan di sini
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 
@@ -77,7 +74,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('found-items', FoundItemController::class)->except(['index', 'show']);
     Route::get('/barang/hilang/{lostItem:uuid}', [ItemController::class, 'showLost'])->name('items.show.lost');
     Route::get('/barang/ditemukan/{foundItem:uuid}', [ItemController::class, 'showFound'])->name('items.show.found');
-
 });
 
 // == RUTE AUTENTIKASI GOOGLE ==
