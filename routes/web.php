@@ -64,7 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('items.index');
     })->name('dashboard');
     // Ini link yang diklik user dari WA
-    Route::get('/connect-wa', [WaAuthController::class, 'connect'])->name('wa.auth.link');
+    Route::get('/connect-wa', [WaAuthController::class, 'connect'])->middleware('auth')->name('wa.auth.link');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
