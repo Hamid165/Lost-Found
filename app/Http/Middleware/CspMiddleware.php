@@ -43,6 +43,7 @@ class CspMiddleware
         // 2. https://ui-avatars.com ditambahkan ke img-src
         // 3. https://cdn.jsdelivr.net ditambahkan ke connect-src
         // ====================================================================
+        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net https://cdn.tailwindcss.com 'unsafe-eval' 'unsafe-inline'";
 
         // 'unsafe-inline' tidak diperlukan lagi karena kita pakai Alpine.js (via 'unsafe-eval') dan nonce
         $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline'";
