@@ -101,7 +101,7 @@ class DashboardController extends Controller
 
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $dateLabels[] = $day; // Label sumbu X (Tanggal)
-            
+
             // Ambil jumlah dari hasil query, jika tidak ada (null), pakai 0.
             $lostCounts[] = $lostItemsData[$day] ?? 0;
             $foundCounts[] = $foundItemsData[$day] ?? 0;
