@@ -89,16 +89,22 @@
                                     - border: Border default.
                                 --}}
                                 <input id="email"
-                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border"
-                                    type="email" name="email" :value="old('email')" required autofocus
+                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border @error('email') border-red-500 @enderror"
+                                    type="email" name="email" value="{{ old('email') }}" required autofocus
                                     placeholder="Email" />
+                                @error('email')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                                 
                                 {{-- Input Password --}}
                                 {{-- mt-4: Margin atas --}}
                                 <input id="password"
-                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4"
+                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4 @error('password') border-red-500 @enderror"
                                     type="password" name="password" required autocomplete="current-password"
                                     placeholder="Password" />
+                                @error('password')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
 
                                 {{-- Tombol Submit --}}
                                 {{-- 

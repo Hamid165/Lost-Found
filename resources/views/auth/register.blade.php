@@ -52,21 +52,30 @@
                                 {{-- Input 1: Nama Lengkap --}}
                                 {{-- w-full: Lebar full. bg-gray-100: Background input abu muda. --}}
                                 <input id="name"
-                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border"
-                                    type="text" name="name" :value="old('name')" required autofocus
+                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border @error('name') border-red-500 @enderror"
+                                    type="text" name="name" value="{{ old('name') }}" required autofocus
                                     placeholder="Nama Lengkap" />
+                                @error('name')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
 
                                 {{-- Input 2: Email --}}
                                 <input id="email"
-                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4"
-                                    type="email" name="email" :value="old('email')" required
+                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4 @error('email') border-red-500 @enderror"
+                                    type="email" name="email" value="{{ old('email') }}" required
                                     placeholder="Email" />
+                                @error('email')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
 
                                 {{-- Input 3: Password --}}
                                 <input id="password"
-                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4"
+                                    class="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border mt-4 @error('password') border-red-500 @enderror"
                                     type="password" name="password" required autocomplete="new-password"
                                     placeholder="Password" />
+                                @error('password')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                                 
                                 {{-- Input 4: Konfirmasi Password --}}
                                 <input id="password_confirmation"
