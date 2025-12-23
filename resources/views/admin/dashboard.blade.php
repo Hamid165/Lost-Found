@@ -31,7 +31,7 @@
 
                                 {{-- Header Chart & Filter --}}
                                 <div class="flex flex-wrap justify-between items-start mb-4 gap-4">
-                                    <h3 class="text-lg font-medium text-white">
+                                    <h3 class="text-3xl  font-medium text-white">
                                         Grafik Laporan Harian
                                     </h3>
 
@@ -81,7 +81,7 @@
                                 </div>
 
                                 {{-- Area Canvas Grafik Garis. relative h-96: Tinggi saya perbesar sedikit agar seimbang --}}
-                                <div class="relative bg-white rounded-lg shadow-sm p-4" style="height: 300px;">
+                                <div class="relative bg-white rounded-lg shadow-sm p-4" style="height: 400px;">
                                     <canvas id="reportsChart"></canvas>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                         <div class="bg-red-800 overflow-hidden shadow-sm sm:rounded-lg h-full">
                             <div class="p-6">
                                 {{-- Judul: UBAH text-red-800 JADI text-white (Agar terbaca) --}}
-                                <h3 class="text-lg font-medium text-white mb-4">
+                                <h3 class="text-3xl font-medium text-white mb-4">
                                     Perbandingan Laporan
                                 </h3>
 
@@ -329,10 +329,10 @@
     @endpush
 </x-app-layout>
 
- {{-- ========================================================================================= --}}
- {{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
- {{-- ========================================================================================= --}}
- {{--
+{{-- ========================================================================================= --}}
+{{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
+{{-- ========================================================================================= --}}
+{{--
 //     1. MENGUBAH WARNA (Background & Text)
 //        Format: 'bg-{warna}-{intensitas}' atau 'text-{warna}-{intensitas}'
 //        Contoh:
@@ -363,4 +363,4 @@
 //        - 'mb-4' (Margin Bawah level 4) -> Ubah ke 'mb-8' (lebih jauh) atau 'mb-2' (lebih dekat).
 //        - Skala ukuran Tailwind: 0, 1, 2, 4, 8, 12, 16, 20, dll.
 // --}}
- {{-- ========================================================================================= --}}
+{{-- ========================================================================================= --}}
