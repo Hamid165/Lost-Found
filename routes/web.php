@@ -56,7 +56,7 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
 
 // == RUTE KHUSUS PENGGUNA (Wajib Login & Email Terverifikasi) ==
 // Perubahan di baris bawah ini: Menambahkan 'verified'
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return redirect()->route('items.index');
     })->name('dashboard');

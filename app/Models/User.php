@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-// Mengimpor interface MustVerifyEmail untuk fitur verifikasi email
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-// Mengimpor trait yang berisi logika verifikasi email
-use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,7 +21,7 @@ class User extends Authenticatable
     // MustVerifyEmailTrait: Trait pelengkap logika verifikasi email.
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, MustVerifyEmailTrait;
+    use HasFactory, Notifiable;
 
     /**
      * Properti $fillable menentukan kolom mana saja yang boleh diisi secara massal (Mass Assignment).
