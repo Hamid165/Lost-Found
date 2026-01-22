@@ -20,66 +20,76 @@ class CspMiddleware
     {
         // 1. Buat Nonce
         $nonce = bin2hex(random_bytes(16));
-
-        // 2. Bagikan nonce ke semua view
         View::share('csp_nonce', $nonce);
-
-        // 3. Beri tahu Vite untuk menggunakan nonce
         Vite::useCspNonce($nonce);
 
-        // 4. Lanjutkan request untuk mendapatkan response
+        // 2. Lanjutkan request
         $response = $next($request);
 
-        // 5. Definisikan alamat server dev (TANPA [::1] yang error)
-        $viteDevHttp = 'http://localhost:5173 http://127.0.0.1:5173';
-        $viteDevWs = 'ws://localhost:5173 ws://127.0.0.1:5173';
+        // ====================================================================
+        // PERBAIKAN 1: HAPUS & TAMBAH HEADER (Sesuai Laporan ZAP)
+        // ====================================================================
+        
+        // Menghapus header yang membocorkan versi PHP (Risk: Lemah - Info Leak)
+        $response->headers->remove('X-Powered-By');
 
-        // 6. Siapkan arahan (directives) kebijakan dasar
-        $policy = "default-src 'self';";
+        // Mencegah browser menebak tipe file (Risk: Lemah - MIME Sniffing)
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
+        
+        // Mencegah Clickjacking (Sudah ada di kode lama, tapi kita pastikan)
+        $response->headers->set('X-Frame-Options', 'DENY');
+        
+        // Mengatur privasi referrer
+        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
 
         // ====================================================================
-        // PERBAIKAN:
-        // 1. 'unsafe-inline' dihapus (karena diabaikan oleh nonce)
-        // 2. https://ui-avatars.com ditambahkan ke img-src
-        // 3. https://cdn.jsdelivr.net ditambahkan ke connect-src
+        // PERBAIKAN 2: DEFINISI CSP YANG LEBIH RAPI & LENGKAP
         // ====================================================================
-        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net https://cdn.tailwindcss.com 'unsafe-eval' 'unsafe-inline'";
+        
+        $viteDev = 'http://localhost:5173 http://127.0.0.1:5173 ws://localhost:5173 ws://127.0.0.1:5173';
 
-        // 'unsafe-inline' tidak diperlukan lagi karena kita pakai Alpine.js (via 'unsafe-eval') dan nonce
-        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net 'unsafe-eval' 'unsafe-inline'";
+        // 1. Script Src: Digabung jadi satu agar tidak saling menimpa
+        // Kita izinkan tailwindcss dan jsdelivr
+        $scriptSrc = "'self' 'nonce-{$nonce}' https://cdn.jsdelivr.net https://cdn.tailwindcss.com 'unsafe-eval'";
 
+        // 2. Style Src
         $styleSrc = "'self' https://fonts.bunny.net 'unsafe-inline'";
+
+        // 3. Font & Image Src
         $fontSrc = "'self' https://fonts.bunny.net";
-
-        // Izinkan gambar dari ui-avatars.com
         $imgSrc = "'self' data: https://ui-avatars.com";
-
-        // Izinkan koneksi ke CDN (untuk file .map Chart.js)
+        
+        // 4. Connect Src
         $connectSrc = "'self' https://cdn.jsdelivr.net";
 
-        // 7. JIKA DI LOCAL: Izinkan koneksi ke Vite Dev Server
+        // Jika LOCAL, tambahkan akses ke Vite
         if (App::isLocal()) {
-            $scriptSrc .= " {$viteDevHttp}";
-            $styleSrc .= " {$viteDevHttp}";
-            $connectSrc .= " {$viteDevHttp} {$viteDevWs}";
+            $scriptSrc .= " {$viteDev} 'unsafe-inline'";
+            $styleSrc .= " {$viteDev}";
+            $connectSrc .= " {$viteDev}";
+            $imgSrc .= " {$viteDev}";
         }
 
-        // 8. Gabungkan semua kebijakan menjadi satu string
+        // Susun Kebijakan (Policy)
+        // Menambahkan object-src dan base-uri untuk menutup temuan "No Fallback" ZAP
+        $policy  = "default-src 'self';";
+        $policy .= "base-uri 'self';";
+        $policy .= "object-src 'none';"; 
         $policy .= "script-src {$scriptSrc};";
         $policy .= "style-src {$styleSrc};";
         $policy .= "font-src {$fontSrc};";
         $policy .= "img-src {$imgSrc};";
         $policy .= "connect-src {$connectSrc};";
 
-        // 9. Tambahkan header ke response
+        // Set Header CSP
         $response->headers->set('Content-Security-Policy', $policy);
 
-        // 10. Tambahkan X-Frame-Options (Mencegah Clickjacking)
-        $response->headers->set('X-Frame-Options', 'DENY');
-
-        // 11. Tambahkan HSTS (Hanya jika di produksi & HTTPS)
-        // Ini memaksa browser menggunakan HTTPS
-        if (App::isProduction() && $request->isSecure()) {
+        // ====================================================================
+        // PERBAIKAN 3: HSTS (Strict Transport Security)
+        // ====================================================================
+        // Memaksa HTTPS di Production (Risk: Lemah - HSTS Not Set)
+        if (App::isProduction()) {
             $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         }
 

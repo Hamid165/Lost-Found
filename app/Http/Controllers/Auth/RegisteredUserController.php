@@ -37,7 +37,6 @@ class RegisteredUserController extends Controller
 
         // PERBAIKAN PHPSTAN LEVEL 9:
         // Gunakan helper string() -> toString() agar tipe data 100% string aman.
-        // Jangan gunakan casting (string) $request->name.
         $user = User::create([
             'name' => $request->string('name')->toString(),
             'email' => $request->string('email')->toString(),
@@ -46,13 +45,13 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Kirim email verifikasi ke user yang baru didaftarkan
-        // Method ini tersedia karena User sekarang mengimplementasikan
-        // MustVerifyEmail dan menggunakan trait yang sesuai.
-        // $user->sendEmailVerificationNotification();
-
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // ====================================================================
+        // PERBAIKAN ZAP: Big Redirect Detected
+        // Menggunakan status 303 (See Other) untuk response redirect setelah POST.
+        // Ini mencegah pengiriman ulang form dan memperkecil kemungkinan leakage response body.
+        // ====================================================================
+        return redirect()->route('dashboard')->setStatusCode(303);
     }
 }
