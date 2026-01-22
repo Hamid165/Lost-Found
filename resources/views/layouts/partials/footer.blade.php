@@ -4,15 +4,15 @@
     {{-- Konten Utama Footer (Wrapper). container: Batas lebar responsif. mx-auto: Rata tengah secara horizontal. px-8: Padding kiri-kanan 2rem (32px). --}}
     <div class="container mx-auto px-8">
 
-        {{-- Grid Layout Utama. 
-         grid: Display grid. 
-         grid-cols-1: Mobile 1 kolom. 
-         md:grid-cols-2: Tablet 2 kolom. 
-         lg:grid-cols-4: Laptop/Desktop 4 kolom. 
-         text-center: Teks rata tengah (default mobile). 
-         md:text-left: Teks rata kiri di layar md ke atas. 
-         gap-y-10: Jarak vertikal antar baris 2.5rem. 
-         md:gap-x-6: Jarak horizontal antar kolom 1.5rem di layar md ke atas. 
+        {{-- Grid Layout Utama.
+         grid: Display grid.
+         grid-cols-1: Mobile 1 kolom.
+         md:grid-cols-2: Tablet 2 kolom.
+         lg:grid-cols-4: Laptop/Desktop 4 kolom.
+         text-center: Teks rata tengah (default mobile).
+         md:text-left: Teks rata kiri di layar md ke atas.
+         gap-y-10: Jarak vertikal antar baris 2.5rem.
+         md:gap-x-6: Jarak horizontal antar kolom 1.5rem di layar md ke atas.
     --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-center md:text-left gap-y-10 md:gap-x-6">
 
@@ -25,14 +25,14 @@
                 {{-- List Kontak wrapper. flex flex-col: Kolom. items-center: Rata tengah. md:items-start: Rata kiri. space-y-3: Jarak vertikal antar item 0.75rem. --}}
                 <div class="flex flex-col items-center md:items-start space-y-3">
 
-                    {{-- Item Telepon. 
-               border border-red-700: Border 1px solid merah agak gelap. 
-               rounded-lg: Sudut membulat 0.5rem. 
-               px-4 py-2: Padding horizontal 1rem, vertikal 0.5rem. 
-               text-sm: Ukuran font kecil (0.875rem). 
-               text-white: Teks putih. 
-               hover:bg-red-700: Background jadi merah 700 saat hover. 
-               transition: Efek transisi halus. 
+                    {{-- Item Telepon.
+               border border-red-700: Border 1px solid merah agak gelap.
+               rounded-lg: Sudut membulat 0.5rem.
+               px-4 py-2: Padding horizontal 1rem, vertikal 0.5rem.
+               text-sm: Ukuran font kecil (0.875rem).
+               text-white: Teks putih.
+               hover:bg-red-700: Background jadi merah 700 saat hover.
+               transition: Efek transisi halus.
           --}}
                     <a href="https://wa.link/b7abxy"
                         class="border border-red-700 rounded-lg px-4 py-2 text-sm text-white hover:bg-red-700 transition" target="_blank">
@@ -42,7 +42,7 @@
                     {{-- Item Email. (Class sama dengan item telepon di atas) --}}
                     <a href="#"
                         class="border border-red-700 rounded-lg px-4 py-2 text-sm text-white hover:bg-red-700 transition">
-                        lost&found@gmail.com
+                        lostandfoundtup@gmail.com
                     </a>
                 </div>
             </div>
@@ -121,13 +121,13 @@
         </div>
 
         <!-- Copyright -->
-        {{-- Footer Copyright. 
-         mt-16: Jarak atas 4rem. 
-         border-t border-red-700: Garis pemisah atas warna merah 700. 
-         pt-8: Padding atas 2rem. 
-         text-center: Teks rata tengah. 
-         text-sm: Font kecil. 
-         text-gray-300: Warna abu lebih gelap dari 200. 
+        {{-- Footer Copyright.
+         mt-16: Jarak atas 4rem.
+         border-t border-red-700: Garis pemisah atas warna merah 700.
+         pt-8: Padding atas 2rem.
+         text-center: Teks rata tengah.
+         text-sm: Font kecil.
+         text-gray-300: Warna abu lebih gelap dari 200.
     --}}
         <div class="mt-16 border-t border-red-700 pt-8 text-center text-sm text-gray-300">
             <p>&copy; 2025 Lost & Found TUP. All Rights Reserved.</p>
@@ -138,17 +138,17 @@
 {{-- ========================================================================================= --}}
 {{--                    PANDUAN PENGUBAHAN GAYA (CUSTOMIZATION GUIDE)                          --}}
 {{-- ========================================================================================= --}}
-{{-- 
+{{--
     1. MENGUBAH WARNA (Background & Text)
        Format: 'bg-{warna}-{intensitas}' atau 'text-{warna}-{intensitas}'
        Contoh:
        - 'bg-red-800' (Merah Tua)    -> Ubah ke 'bg-blue-600' (Biru Sedang) atau 'bg-green-500' (Hijau)
        - 'text-white' (Putih)         -> Ubah ke 'text-black' (Hitam) atau 'text-gray-200' (Abu Terang)
-       
+
        CATATAN PENTING:
        - Jika Anda mengubah 'bg-white' menjadi 'blue', itu TIDAK AKAN BERJALAN.
        - Anda harus spesifik: 'bg-blue-500' (standar).
-       - Angka intensitas: 
+       - Angka intensitas:
          50 (paling terang), 100, 200, 300, 400, 500 (standar), 600, 700, 800, 900 (paling gelap).
        - Jika angka tidak cocok (misal 'bg-blue-333'), class tersebut tidak akan dikenali dan warnanya hilang.
 
